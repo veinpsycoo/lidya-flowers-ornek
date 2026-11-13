@@ -82,6 +82,16 @@ input[type=number],input[type=text],input[type=time],input[type=date],select.g{h
 .yuk{display:flex;align-items:center;justify-content:center;height:46px;border:1.5px dashed #cdbfb1;border-radius:12px;cursor:pointer;font-weight:700;color:var(--rose-d);background:#fff}
 .yuk input{position:absolute;opacity:0;width:1px;height:1px}
 .bilgi{font-size:12.5px;color:var(--mut);margin-top:6px}
+.kul{display:grid;gap:8px}
+.kul .ust{display:flex;align-items:center;gap:10px}
+.kul .av{width:40px;height:40px;border-radius:50%;background:var(--pink);color:var(--rose-d);display:grid;place-items:center;font-weight:800;flex:0 0 auto}
+.kul .ust div{flex:1;min-width:0}
+.kul .ust small{display:block;color:var(--mut);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.kul .yt{display:flex;flex-wrap:wrap;gap:5px}
+.kul .yt span{font-size:11.5px;font-weight:700;border-radius:999px;padding:3px 9px;background:var(--yesil-a);color:var(--yesil)}
+.kul .yt span.yok{background:#f4f2f0;color:#a39a91;text-decoration:line-through}
+.kul .alt{display:flex;align-items:center;gap:10px;justify-content:space-between}
+.kul.pasif{opacity:.55}
 .toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);background:var(--ink);color:#fff;padding:10px 18px;border-radius:999px;font-weight:700;opacity:0;transition:.2s;pointer-events:none;z-index:50}
 .toast.ac{opacity:1}
 @media(min-width:760px){.ozet span{font-size:12.5px}.urunler{grid-template-columns:repeat(4,1fr)}.dilimler{grid-template-columns:repeat(4,1fr)}.sip{grid-template-columns:1.2fr 1fr auto;align-items:start;gap:12px}.sip .ust{grid-column:1/-1}}
@@ -103,6 +113,7 @@ input[type=number],input[type=text],input[type=time],input[type=date],select.g{h
   <button role="tab" aria-selected="false" aria-controls="teslimat" id="t2">Teslimat</button>
   <button role="tab" aria-selected="false" aria-controls="bolgeler" id="t3">Bölgeler</button>
   <button role="tab" aria-selected="false" aria-controls="urunler" id="t4">Ürünler</button>
+  <button role="tab" aria-selected="false" aria-controls="kullanicilar" id="t5">Kullanıcılar</button>
  </nav>
 </header>
 
@@ -176,6 +187,26 @@ input[type=number],input[type=text],input[type=time],input[type=date],select.g{h
   </form>
  </div>
  <div class="urunler" id="urListe"></div>
+</section>
+<!-- 5) KULLANICILAR -->
+<section id="kullanicilar" role="tabpanel" aria-labelledby="t5" hidden>
+ <h2>Kullanıcılar ve Yetkiler</h2>
+ <div id="kulListe"></div>
+ <div class="kart">
+  <h3 style="margin-top:0">Kullanıcı Ekle</h3>
+  <form class="form" id="kulForm">
+   <div class="alan" style="margin:0"><label for="kAd">Ad soyad</label><input type="text" id="kAd" required></div>
+   <div class="alan" style="margin:0"><label for="kIl">Telefon veya e-posta</label><input type="text" id="kIl" required></div>
+   <div class="alan" style="margin:0"><label for="kRol">Rol</label><select class="g" id="kRol"><option>Personel</option><option>Kurye</option><option>Sahip</option></select></div>
+   <button class="btn ana" type="submit" style="height:46px;justify-content:center">Kullanıcıyı Ekle</button>
+  </form>
+  <p class="bilgi">Gerçek sitede eklenen kişiye davet gider, kendi şifresini kendisi belirler.</p>
+ </div>
+ <div class="kart">
+  <h3 style="margin-top:0">Rol önizleme</h3>
+  <div class="ekle" style="margin-top:0"><select class="g" id="onRol" aria-label="Paneli bu rolle gör"><option>Sahip</option><option>Personel</option><option>Kurye</option></select></div>
+  <p class="bilgi">Seçilen rolün paneli nasıl göreceğini gösterir (görünmeyen sekmeler gizlenir).</p>
+ </div>
 </section>
 </main>
 <div class="toast" id="toast" role="status"></div>
@@ -279,6 +310,31 @@ document.getElementById('urForm').onsubmit=ev=>{ev.preventDefault();
  const l=oku(UR_K,[]);l.unshift({ad,fiyat:'₺'+f.toLocaleString('tr-TR')+',00',kat:document.getElementById('uKat').value,img:fotoData});
  if(yaz(UR_K,l)){ev.target.reset();fotoData=null;document.getElementById('onizle').hidden=true;urCiz();toast('Ürün eklendi ✓')}};
 urCiz();
+
+// ---- 5) kullanıcılar (demo)
+const KUL_K='lidya-kullanici';
+const YETKI={Sahip:['Siparişler','Teslimat listesi','Ürünler','Fiyatlar','Kontenjan & teslimat','Bölgeler','Ödemeler','Kullanıcılar'],
+ Personel:['Siparişler','Teslimat listesi','Ürünler'],Kurye:['Teslimat listesi']};
+const TUM=YETKI.Sahip;
+const SEKME={Sahip:['t1','t2','t3','t4','t5'],Personel:['t1','t4'],Kurye:['t1']};
+let kul=oku(KUL_K,null)||[{ad:'Ali Aykut',il:'0539 433 25 69',rol:'Sahip',aktif:true},{ad:'Dükkan Çalışanı',il:'dukkan@ornek.com',rol:'Personel',aktif:true},{ad:'Kurye',il:'0555 000 00 00',rol:'Kurye',aktif:true}];
+function kulCiz(){
+ document.getElementById('kulListe').innerHTML=kul.map((k,i)=>`<div class="kart kul${k.aktif?'':' pasif'}">
+  <div class="ust"><span class="av">${e(k.ad.trim()[0]||'?')}</span><div><b>${e(k.ad)}</b><small>${e(k.il)}</small></div>
+   <select class="g" data-rol="${i}" style="width:118px;height:38px" aria-label="${e(k.ad)} rolü" ${i===0?'disabled':''}>${['Sahip','Personel','Kurye'].map(r=>`<option${r===k.rol?' selected':''}>${r}</option>`).join('')}</select></div>
+  <div class="yt">${TUM.map(y=>`<span class="${YETKI[k.rol].includes(y)?'':'yok'}">${y}</span>`).join('')}</div>
+  <div class="alt"><small style="color:var(--mut)">${i===0?'Mağaza sahibi (kapatılamaz)':k.aktif?'Aktif':'Kapalı — giriş yapamaz'}</small>${i===0?'':`<span class="sw"><input type="checkbox" data-akt="${i}" ${k.aktif?'checked':''} aria-label="${e(k.ad)} aktif"><i></i></span>`}</div>
+ </div>`).join('');
+ document.querySelectorAll('[data-rol]').forEach(x=>x.onchange=()=>{kul[+x.dataset.rol].rol=x.value;yaz(KUL_K,kul);kulCiz();toast('Rol güncellendi')});
+ document.querySelectorAll('[data-akt]').forEach(x=>x.onchange=()=>{kul[+x.dataset.akt].aktif=x.checked;yaz(KUL_K,kul);kulCiz();toast(x.checked?'Kullanıcı açıldı':'Kullanıcı kapatıldı')});
+}
+document.getElementById('kulForm').onsubmit=ev=>{ev.preventDefault();const ad=temiz(document.getElementById('kAd').value),il=temiz(document.getElementById('kIl').value);if(!ad||!il)return;
+ kul.push({ad,il,rol:document.getElementById('kRol').value,aktif:true});yaz(KUL_K,kul);ev.target.reset();kulCiz();toast('Kullanıcı eklendi ✓')};
+document.getElementById('onRol').onchange=x=>{const izin=SEKME[x.target.value];
+ document.querySelectorAll('nav button').forEach(b=>b.hidden=!izin.includes(b.id));
+ if(x.target.value!=='Sahip'){const t5=document.getElementById('t5');t5.hidden=false;t5.textContent='Kullanıcılar (önizleme)'}else document.getElementById('t5').textContent='Kullanıcılar';
+ toast(x.target.value+' görünümü')};
+kulCiz();
 </script>
 </body>
 </html>
