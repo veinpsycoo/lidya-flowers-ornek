@@ -49,6 +49,9 @@ h3{font-size:15px;margin:18px 0 8px}
 .sip small{color:var(--mut)}
 .sip .kn{font-style:italic;color:var(--ink);background:var(--cream);border-radius:8px;padding:6px 8px;font-size:13px}
 .durum{height:34px;border-radius:8px;border:1px solid var(--line);padding:0 8px;font-weight:700;max-width:170px}
+.dsatir{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px}
+.mail{font-size:12px;color:var(--mut)}
+.d-Onaylandı{background:#fdf2f8;color:#9d174d}.d-İptal{background:#fdecec;color:#b42318}
 .d-Yeni{background:#fff4e5;color:#b45309}.d-Hazırlanıyor{background:#eef2ff;color:#4338ca}.d-Yolda{background:#e0f2fe;color:#0369a1}.d-Teslim{background:var(--yesil-a);color:var(--yesil)}
 .alan{display:grid;gap:4px;margin-bottom:12px}
 .alan label{font-weight:700;font-size:13.5px}
@@ -100,7 +103,7 @@ input[type=number],input[type=text],input[type=time],input[type=date],select.g{h
 .toast.ac{opacity:1}
 @media(min-width:760px){.ozet span{font-size:12.5px}.urunler{grid-template-columns:repeat(4,1fr)}.dilimler{grid-template-columns:repeat(4,1fr)}.sip{grid-template-columns:1.2fr 1fr auto;align-items:start;gap:12px}.sip .ust{grid-column:1/-1}}
 @media print{
- .not,header,nav,.ara,.ozet,.durum,.toast{display:none!important}
+ .not,header,nav,.ara,.ozet,.durum,.mail,.toast{display:none!important}
  body{background:#fff}main{padding:0}
  section:not(#siparisler){display:none!important}
  .kart{break-inside:avoid;border-color:#999}
@@ -243,20 +246,22 @@ function demoSiparis(){
  return U.map((u,i)=>({no:'LF-'+(10241+i),urun:u[0],adres:u[1],gun:iso(gunEk(i<6?0:1)),dilim:[0,0,1,1,2,2,0,1,2,3][i],not:u[2],alici:['Ayşe K.','Mert Y.','Zeynep A.','Can D.','Elif S.','Hatice T.','Deniz B.','Selin Ö.','Burak E.','Nur G.'][i],durum:i<6?D[[3,3,2,1,0,0][i]]:'Yeni'}));
 }
 let sip=oku(SIP_K,null);if(!sip||!sip.length||sip[0].gun<iso(bugun)){sip=demoSiparis();yaz(SIP_K,sip)}
+const DURUMLAR=['Yeni','Onaylandı','Hazırlanıyor','Yolda','Teslim edildi','İptal edildi'];
+const MAIL={'Yeni':'Siparişiniz alındı','Onaylandı':'Siparişiniz onaylandı','Yolda':'Çiçeğiniz yolda','Teslim edildi':'Çiçeğiniz teslim edildi','İptal edildi':'Siparişiniz iptal edildi'};
 let filtre='0';
 function sipListe(){
  const g=filtre==='t'?null:iso(gunEk(+filtre));
  const l=sip.filter(s=>!g||s.gun===g).sort((a,b)=>a.gun.localeCompare(b.gun)||a.dilim-b.dilim);
  const say=k=>l.filter(s=>s.durum===k).length;
- document.getElementById('ozet').innerHTML=`<div><b>${l.length}</b><span>Sipariş</span></div><div><b>${say('Yeni')+say('Hazırlanıyor')}</b><span>Hazırlanacak</span></div><div><b>${say('Yolda')}</b><span>Yolda</span></div><div><b>${say('Teslim edildi')}</b><span>Teslim</span></div>`;
+ document.getElementById('ozet').innerHTML=`<div><b>${l.length}</b><span>Sipariş</span></div><div><b>${say('Yeni')+say('Onaylandı')+say('Hazırlanıyor')}</b><span>Hazırlanacak</span></div><div><b>${say('Yolda')}</b><span>Yolda</span></div><div><b>${say('Teslim edildi')}</b><span>Teslim</span></div>`;
  document.getElementById('yazBaslik').textContent='Lidya Flowers — Teslimat listesi '+(g?etiket(g):'(tümü)');
  document.getElementById('sipListe').innerHTML=l.length?l.map(s=>`<div class="kart sip">
   <div class="ust"><span class="no">${e(s.no)} · ${e(s.alici)}</span><span class="dl">${etiket(s.gun)} · ${DILIM[s.dilim]}</span></div>
   <div><b>${e(s.urun)}</b><br><small>📍 ${e(s.adres)}, İstanbul</small></div>
   <div>${s.not?`<div class="kn">“${e(s.not)}”</div>`:'<small>Kart notu yok</small>'}</div>
-  <select class="durum d-${s.durum.split(' ')[0]}" data-no="${e(s.no)}" aria-label="${e(s.no)} durumu">${['Yeni','Hazırlanıyor','Yolda','Teslim edildi'].map(d=>`<option${d===s.durum?' selected':''}>${d}</option>`).join('')}</select>
+  <div class="dsatir"><select class="durum d-${s.durum.split(' ')[0]}" data-no="${e(s.no)}" aria-label="${e(s.no)} durumu">${DURUMLAR.map(d=>`<option${d===s.durum?' selected':''}>${d}</option>`).join('')}</select><small class="mail">✉ Durum değişince müşteriye otomatik mail gider</small></div>
  </div>`).join(''):'<div class="kart" style="text-align:center;color:var(--mut)">Bu gün için sipariş yok.</div>';
- document.querySelectorAll('.durum').forEach(x=>x.onchange=()=>{const s=sip.find(y=>y.no===x.dataset.no);s.durum=x.value;yaz(SIP_K,sip);x.className='durum d-'+x.value.split(' ')[0];sipListe();toast('Durum güncellendi')});
+ document.querySelectorAll('.durum').forEach(x=>x.onchange=()=>{const s=sip.find(y=>y.no===x.dataset.no);s.durum=x.value;yaz(SIP_K,sip);sipListe();toast(MAIL[x.value]?'✉ Müşteriye “'+MAIL[x.value]+'” maili gider (örnek)':'Durum güncellendi')});
  return l;
 }
 document.querySelectorAll('.kap button').forEach(b=>b.onclick=()=>{filtre=b.dataset.g;document.querySelectorAll('.kap button').forEach(x=>x.classList.toggle('on',x===b));sipListe()});
