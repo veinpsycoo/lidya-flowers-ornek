@@ -43,8 +43,8 @@ nav.menu a:hover{color:var(--rose)}
 /* hero */
 .hero{background:var(--cream)}
 .hero .wrap{display:grid;gap:18px;padding-top:18px;padding-bottom:26px}
-.hero-img{border-radius:22px;overflow:hidden;aspect-ratio:4/3;background:var(--pink)}
-.hero-img img{width:100%;height:100%;object-fit:cover}
+.hero-img{border-radius:22px;overflow:hidden;aspect-ratio:1/1;background:#fefefe;padding:10px}
+.hero-img img{width:100%;height:100%;object-fit:contain}
 .hero h1{font-size:clamp(30px,8vw,54px);line-height:1.05;margin:0 0 10px;font-weight:400}
 .hero h1 em{color:var(--rose);font-style:italic}
 .hero p{margin:0 0 18px;color:var(--mut);font-size:16px;max-width:460px}
@@ -143,7 +143,7 @@ footer a:hover{color:#fff}
  .ikon{margin-left:0}
  nav.menu{display:block}
  .hero .wrap{grid-template-columns:1.05fr 1fr;align-items:center;padding-top:34px;padding-bottom:40px;gap:48px}
- .hero-img{aspect-ratio:5/4;order:2}
+ .hero-img{aspect-ratio:1/1;order:2;max-height:560px}
  .grid{grid-template-columns:repeat(4,1fr)}
  .teslim{padding:20px 28px}
  .wa-sabit span{display:inline}
@@ -171,7 +171,7 @@ footer a:hover{color:#fff}
 
 <section class="hero">
  <div class="wrap">
-  <div class="hero-img"><img src="img/hero.webp" alt="Soft pembe gül ve lilyum buketi" width="1100" height="1100" fetchpriority="high"></div>
+  <div class="hero-img"><img src="img/hero.webp" alt="Soft pembe gül ve lilyum buketi" width="853" height="1250" fetchpriority="high"></div>
   <div>
    <h1 class="serif">Sevdiklerinize <em>en taze</em> çiçekler, bugün kapıda</h1>
    <p>Modern ve zarif buketler, özenle hazırlanıp şık bir sunumla teslim edilir. İstanbul geneli aynı gün teslimat.</p>
