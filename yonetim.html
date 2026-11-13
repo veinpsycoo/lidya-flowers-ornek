@@ -99,6 +99,14 @@ input[type=number],input[type=text],input[type=time],input[type=date],select.g{h
 .rz.akt{background:var(--yesil-a);color:var(--yesil)}
 .rz.kap{background:#ece9e6;color:#6b625a}
 .rz.sah{background:var(--pink);color:var(--rose-d)}
+.kmp{display:grid;gap:8px}
+.kmp .ust{display:flex;align-items:center;gap:10px;justify-content:space-between}
+.kmp .kod{font:800 16px/1 ui-monospace,Consolas,monospace;letter-spacing:.06em;background:var(--pink);color:var(--rose-d);border:1.5px dashed var(--rose);border-radius:8px;padding:6px 10px}
+.kmp .ind{font-size:17px;font-weight:800}
+.kmp ul{margin:0;padding:0;list-style:none;display:flex;flex-wrap:wrap;gap:5px}
+.kmp li{font-size:12.5px;background:var(--cream);border-radius:999px;padding:3px 10px}
+.kmp .alt{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.kmp.pasif{opacity:.6;background:#f7f5f3}
 .toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);background:var(--ink);color:#fff;padding:10px 18px;border-radius:999px;font-weight:700;opacity:0;transition:.2s;pointer-events:none;z-index:50}
 .toast.ac{opacity:1}
 @media(min-width:760px){.ozet span{font-size:12.5px}.urunler{grid-template-columns:repeat(4,1fr)}.dilimler{grid-template-columns:repeat(4,1fr)}.sip{grid-template-columns:1.2fr 1fr auto;align-items:start;gap:12px}.sip .ust{grid-column:1/-1}}
@@ -120,6 +128,7 @@ input[type=number],input[type=text],input[type=time],input[type=date],select.g{h
   <button role="tab" aria-selected="false" aria-controls="teslimat" id="t2">Teslimat</button>
   <button role="tab" aria-selected="false" aria-controls="bolgeler" id="t3">Bölgeler</button>
   <button role="tab" aria-selected="false" aria-controls="urunler" id="t4">Ürünler</button>
+  <button role="tab" aria-selected="false" aria-controls="kampanyalar" id="t6">Kampanyalar</button>
   <button role="tab" aria-selected="false" aria-controls="kullanicilar" id="t5">Kullanıcılar</button>
  </nav>
 </header>
@@ -195,6 +204,28 @@ input[type=number],input[type=text],input[type=time],input[type=date],select.g{h
  </div>
  <div class="urunler" id="urListe"></div>
 </section>
+<!-- 6) KAMPANYALAR -->
+<section id="kampanyalar" role="tabpanel" aria-labelledby="t6" hidden>
+ <h2>Kampanyalar ve Promosyon Kodları</h2>
+ <div id="kmpListe"></div>
+ <div class="kart">
+  <h3 style="margin-top:0">Yeni Kod</h3>
+  <form class="form" id="kmpForm">
+   <div class="alan" style="margin:0"><label for="cKod">Kod</label><input type="text" id="cKod" required maxlength="20" placeholder="ör. ANNEMIZ" style="text-transform:uppercase"></div>
+   <div class="dilimler">
+    <div class="alan" style="margin:0"><label for="cTur">İndirim türü</label><select class="g" id="cTur"><option value="yuzde">Yüzde (%)</option><option value="tutar">Sabit tutar (₺)</option></select></div>
+    <div class="alan" style="margin:0"><label for="cDeger">İndirim</label><input type="number" id="cDeger" min="1" required inputmode="numeric"></div>
+    <div class="alan" style="margin:0"><label for="cMin">En az sepet (₺)</label><input type="number" id="cMin" min="0" value="0" inputmode="numeric"></div>
+    <div class="alan" style="margin:0"><label for="cSon">Son tarih</label><input type="date" id="cSon"></div>
+    <div class="alan" style="margin:0"><label for="cLimit">Toplam kullanım</label><input type="number" id="cLimit" min="0" value="0" inputmode="numeric"><small>0 = sınırsız</small></div>
+    <div class="alan" style="margin:0"><label for="cKap">Geçerli ürünler</label><select class="g" id="cKap"><option>Tüm ürünler</option><option>Buketler</option><option>Güller</option><option>Lilyumlar</option><option>Papatyalar</option><option>Kutuda &amp; Vazoda</option><option>Çikolatalı</option><option>Saksı Bitkileri</option></select></div>
+   </div>
+   <label class="anah" style="justify-content:flex-start;gap:10px;font-weight:700"><span class="sw"><input type="checkbox" id="cKisi" checked><i></i></span>Kişi başı 1 kullanım</label>
+   <button class="btn ana" type="submit" style="height:46px;justify-content:center">Kodu Oluştur</button>
+  </form>
+ </div>
+</section>
+
 <!-- 5) KULLANICILAR -->
 <section id="kullanicilar" role="tabpanel" aria-labelledby="t5" hidden>
  <h2>Kullanıcılar ve Yetkiler</h2>
@@ -325,7 +356,7 @@ const KUL_K='lidya-kullanici';
 const YETKI={Sahip:['Siparişler','Teslimat listesi','Ürünler','Fiyatlar','Kontenjan & teslimat','Bölgeler','Ödemeler','Kullanıcılar'],
  Personel:['Siparişler','Teslimat listesi','Ürünler'],Kurye:['Teslimat listesi']};
 const TUM=YETKI.Sahip;
-const SEKME={Sahip:['t1','t2','t3','t4','t5'],Personel:['t1','t4'],Kurye:['t1']};
+const SEKME={Sahip:['t1','t2','t3','t4','t6','t5'],Personel:['t1','t4'],Kurye:['t1']};
 let kul=oku(KUL_K,null)||[{ad:'Ali Aykut',il:'0539 433 25 69',rol:'Sahip',aktif:true},{ad:'Dükkan Çalışanı',il:'dukkan@ornek.com',rol:'Personel',aktif:true},{ad:'Kurye',il:'0555 000 00 00',rol:'Kurye',aktif:true}];
 function kulCiz(){
  document.getElementById('kulListe').innerHTML=kul.map((k,i)=>`<div class="kart kul${k.aktif?'':' pasif'}">
@@ -344,6 +375,32 @@ document.getElementById('onRol').onchange=x=>{const izin=SEKME[x.target.value];
  if(x.target.value!=='Sahip'){const t5=document.getElementById('t5');t5.hidden=false;t5.textContent='Kullanıcılar (önizleme)'}else document.getElementById('t5').textContent='Kullanıcılar';
  toast(x.target.value+' görünümü')};
 kulCiz();
+
+// ---- 6) kampanyalar (demo)
+const KMP_K='lidya-kampanya';
+let kmp=oku(KMP_K,null)||[{kod:'HOSGELDIN',tur:'yuzde',deger:10,min:0,son:iso(gunEk(30)),limit:200,kisi:true,kap:'Tüm ürünler',kul:37,aktif:true},
+ {kod:'BUKET250',tur:'tutar',deger:250,min:1500,son:iso(gunEk(10)),limit:100,kisi:true,kap:'Buketler',kul:12,aktif:true}];
+const tlf=n=>'₺'+Number(n).toLocaleString('tr-TR');
+function kmpCiz(){
+ document.getElementById('kmpListe').innerHTML=kmp.map((k,i)=>{const bitti=k.son&&k.son<iso(bugun);return `<div class="kart kmp${k.aktif&&!bitti?'':' pasif'}">
+  <div class="ust"><span class="kod">${e(k.kod)}</span><span class="ind">${k.tur==='yuzde'?'%'+k.deger:tlf(k.deger)} indirim</span></div>
+  <ul><li>${k.min>0?tlf(k.min)+' üstü sepette':'Sepet alt sınırı yok'}</li><li>${e(k.kap)}</li><li>${k.son?'Son gün '+etiket(k.son):'Süresiz'}</li><li>${k.limit>0?k.kul+' / '+k.limit+' kullanıldı':k.kul+' kullanım · sınırsız'}</li>${k.kisi?'<li>Kişi başı 1</li>':''}</ul>
+  <div class="alt">${bitti?'<span class="rz kap">Süresi doldu</span>':k.aktif?'<span class="rz akt">● Aktif</span>':'<span class="rz kap">○ Durduruldu</span>'}
+   <span style="display:flex;gap:8px;align-items:center"><span class="sw"><input type="checkbox" data-ka="${i}" ${k.aktif?'checked':''} aria-label="${e(k.kod)} aktif"><i></i></span><button class="btn sil" data-ks="${i}" style="height:34px">Sil</button></span></div>
+ </div>`}).join('')||'<div class="kart" style="color:var(--mut);text-align:center">Kampanya yok.</div>';
+ document.querySelectorAll('[data-ka]').forEach(x=>x.onchange=()=>{kmp[+x.dataset.ka].aktif=x.checked;yaz(KMP_K,kmp);kmpCiz();toast(x.checked?'Kod açıldı':'Kod durduruldu')});
+ document.querySelectorAll('[data-ks]').forEach(x=>x.onclick=()=>{kmp.splice(+x.dataset.ks,1);yaz(KMP_K,kmp);kmpCiz();toast('Kod silindi')});
+}
+document.getElementById('cSon').min=iso(bugun);
+document.getElementById('kmpForm').onsubmit=ev=>{ev.preventDefault();
+ const kod=document.getElementById('cKod').value.toLocaleUpperCase('tr').replace(/[^A-Z0-9ÇĞİÖŞÜ]/g,'').slice(0,20);
+ const tur=document.getElementById('cTur').value,deger=parseInt(document.getElementById('cDeger').value);
+ if(!kod||!(deger>0)){toast('Kod ve indirim girin');return}
+ if(tur==='yuzde'&&deger>90){toast('Yüzde indirim en fazla %90');return}
+ if(kmp.some(k=>k.kod===kod)){toast('Bu kod zaten var');return}
+ kmp.unshift({kod,tur,deger,min:Math.max(0,parseInt(document.getElementById('cMin').value)||0),son:document.getElementById('cSon').value,limit:Math.max(0,parseInt(document.getElementById('cLimit').value)||0),kisi:document.getElementById('cKisi').checked,kap:document.getElementById('cKap').value,kul:0,aktif:true});
+ yaz(KMP_K,kmp);ev.target.reset();document.getElementById('cKisi').checked=true;kmpCiz();toast('Kod oluşturuldu ✓')};
+kmpCiz();
 </script>
 </body>
 </html>
