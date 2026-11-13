@@ -25,11 +25,14 @@ header{position:sticky;top:0;z-index:20;background:var(--cream);border-bottom:1p
 .logo img{width:40px;height:40px;border-radius:50%;object-fit:cover}
 .logo span{font-size:19px;line-height:1}
 .logo small{display:block;font:600 9px/1 system-ui,sans-serif;letter-spacing:.28em;color:var(--mut);margin-top:3px}
+.sepet-ik{margin-left:auto;width:42px;height:42px;display:grid;place-items:center;border-radius:50%}
+.sepet-ik svg{width:22px;height:22px;fill:none;stroke:var(--ink);stroke-width:1.8}
 .yol{font-size:12.5px;color:var(--mut);padding:12px 0 6px}
 .yol a{color:var(--rose-d);font-weight:600}
 .ust{display:grid;gap:18px;padding-bottom:30px}
-.foto{border-radius:20px;overflow:hidden;background:var(--cream);aspect-ratio:4/5}
-.foto img{width:100%;height:100%;object-fit:cover}
+.foto{position:relative;border-radius:20px;overflow:hidden;background:#fbf8f5;aspect-ratio:1/1}
+.foto::before{content:"";position:absolute;inset:-30px;background:var(--bg) center/cover;filter:blur(24px) saturate(1.1);opacity:.35}
+.foto img{position:relative;width:100%;height:100%;object-fit:contain}
 h1{font-size:clamp(22px,6vw,32px);line-height:1.2;margin:0 0 6px;font-weight:400}
 .fiyat{font-size:26px;font-weight:800;margin:4px 0 6px}
 .tes{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:700;color:var(--yesil)}
@@ -72,6 +75,8 @@ textarea{width:100%;min-height:80px;border:1.5px solid var(--line);border-radius
 .al{position:sticky;bottom:0;background:#fff;border-top:1px solid var(--line);padding:10px 0 12px;margin-top:14px;z-index:5}
 .al button{width:100%;height:54px;border:0;border-radius:999px;background:#e8467c;color:#fff;font:800 16px/1 system-ui,sans-serif;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px}
 .al button:disabled{background:#e9c9d3;cursor:not-allowed}
+.al button.ikinci{height:46px;margin-top:8px;background:#fff;color:var(--yesil);border:2px solid var(--wa);font-size:15px}
+.al button.ikinci:disabled{background:#fff;color:#a9cdb6;border-color:#cfe9d8}
 .al button svg{width:20px;height:20px;fill:currentColor}
 .acik{font-size:14px;color:var(--ink);background:var(--cream);border-radius:14px;padding:14px;margin-top:18px}
 .acik b{display:block;margin-bottom:4px}
@@ -104,6 +109,7 @@ footer{background:var(--ink);color:#d8cbbd;padding:22px 0;font-size:12.5px;text-
 <header><div class="wrap hd">
  <a class="geri" href="index.html#urunler" aria-label="Geri"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></a>
  <a class="logo" href="index.html"><img src="img/logo.webp" alt="" width="40" height="40"><span class="serif">Lidya<small>FLOWERS</small></span></a>
+ <a href="#" data-sepet class="sepet-ik" aria-label="Sepet"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 8h14l-1.2 11.2a2 2 0 0 1-2 1.8H8.2a2 2 0 0 1-2-1.8zM9 8V6a3 3 0 0 1 6 0v2"/></svg></a>
 </div></header>
 
 <main class="wrap">
@@ -135,7 +141,7 @@ footer{background:var(--ink);color:#d8cbbd;padding:22px 0;font-size:12.5px;text-
    <textarea id="not" maxlength="200" placeholder="Çiçekle birlikte gidecek mesajınız"></textarea>
 
    <div class="ozet" id="ozet" aria-live="polite">Lütfen adres, teslimat günü ve saat dilimi seçin.</div>
-   <div class="al"><button id="sepet" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 8h14l-1.2 11.2a2 2 0 0 1-2 1.8H8.2a2 2 0 0 1-2-1.8zM9 8V6a3 3 0 0 1 6 0v2" fill="none" stroke="currentColor" stroke-width="2"/></svg>Sepete Ekle</button></div>
+   <div class="al"><button id="sepet" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 8h14l-1.2 11.2a2 2 0 0 1-2 1.8H8.2a2 2 0 0 1-2-1.8zM9 8V6a3 3 0 0 1 6 0v2" fill="none" stroke="currentColor" stroke-width="2"/></svg>Sepete Ekle</button><button id="hemen" class="ikinci" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2z"/></svg>Hemen Sipariş Ver</button></div>
 
    <div class="acik"><b>Teslimat Bilgisi</b>İstanbul genelinde 17:59'a kadar verilen siparişler aynı gün 21:00'e kadar teslim edilir. İleri bir tarih için takvimden gün seçebilirsiniz.</div>
   </div>
@@ -154,7 +160,7 @@ const q=new URLSearchParams(location.search);const p=P[+q.get('u')]||P[0];
 document.title=p[0]+' – Lidya Flowers';
 document.getElementById('ad').textContent=p[0];document.getElementById('yolAd').textContent=p[0];
 document.getElementById('fiyat').textContent='₺'+p[1];
-const im=document.getElementById('img');im.src=p[2];im.alt=p[0];
+const im=document.getElementById('img');im.src=p[2];im.alt=p[0];im.parentNode.style.setProperty('--bg','url('+p[2]+')');
 
 const simdi=new Date();const bugun=new Date(simdi.getFullYear(),simdi.getMonth(),simdi.getDate());
 const dk=simdi.getHours()*60+simdi.getMinutes();
@@ -263,15 +269,17 @@ function bilgi(){
 }
 function ozet(){
  const o=document.getElementById('ozet');const b=document.getElementById('sepet');
- if(adresIlce&&secGun&&secDilim!==null){const [x,y]=DILIM[secDilim];o.innerHTML='Teslimat: <b>'+etiket(secGun)+', '+String(x).padStart(2,'0')+':00–'+y+':00</b>';b.disabled=false}
- else{o.textContent=!adresIlce?'Lütfen teslimat adresini yazın.':secGun?'Lütfen bir saat dilimi seçin.':'Lütfen teslimat günü ve saat dilimi seçin.';b.disabled=true}
+ if(adresIlce&&secGun&&secDilim!==null){const [x,y]=DILIM[secDilim];o.innerHTML='Teslimat: <b>'+etiket(secGun)+', '+String(x).padStart(2,'0')+':00–'+y+':00</b>';b.disabled=false;document.getElementById('hemen').disabled=false}
+ else{o.textContent=!adresIlce?'Lütfen teslimat adresini yazın.':secGun?'Lütfen bir saat dilimi seçin.':'Lütfen teslimat günü ve saat dilimi seçin.';b.disabled=true;document.getElementById('hemen').disabled=true}
 }
-document.getElementById('sepet').onclick=()=>{const [x,y]=DILIM[secDilim];const n=document.getElementById('not').value.trim();
+document.getElementById('hemen').onclick=()=>{const [x,y]=DILIM[secDilim];const n=document.getElementById('not').value.trim();
  const t='Merhaba, sipariş vermek istiyorum.\nÜrün: '+p[0]+' (₺'+p[1]+')\nAdres: '+ai.value.trim()+'\nTeslimat: '+etiket(secGun)+' '+String(x).padStart(2,'0')+':00-'+y+':00'+(n?'\nKart notu: '+n:'');
  location.href='https://wa.me/'+WA+'?text='+encodeURIComponent(t)};
+document.getElementById('sepet').onclick=()=>{const [x,y]=DILIM[secDilim];window.LidyaSepet&&LidyaSepet.ekle({ad:p[0],fiyat:p[1],img:p[2],adres:ai.value.trim(),tarih:etiket(secGun),dilim:String(x).padStart(2,'0')+':00-'+y+':00',not:document.getElementById('not').value.trim()})};
 gunleriCiz();bilgi();
 const ilk=[...document.querySelectorAll('.gun')].find(x=>!x.disabled&&x.dataset.t);
 gunSec(ilk?new Date(ilk.dataset.t+'T00:00'):gunEkle(bugun,1));
 </script>
+<script src="sepet.js" defer></script>
 </body>
 </html>
