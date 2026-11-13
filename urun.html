@@ -175,11 +175,23 @@ function dilimDurum(d,i){
 const ANA=['Adalar','Ataşehir','Beykoz','Çekmeköy','Kadıköy','Kartal','Maltepe','Pendik','Sancaktepe','Sultanbeyli','Şile','Tuzla','Ümraniye','Üsküdar'];
 const AVR=['Arnavutköy','Avcılar','Bağcılar','Bahçelievler','Bakırköy','Başakşehir','Bayrampaşa','Beşiktaş','Beylikdüzü','Beyoğlu','Büyükçekmece','Çatalca','Esenler','Esenyurt','Eyüpsultan','Fatih','Gaziosmanpaşa','Güngören','Kağıthane','Küçükçekmece','Sarıyer','Silivri','Sultangazi','Şişli','Zeytinburnu'];
 const MAH={'Ümraniye':['Elmalıkent','Atakent','Çakmak','Esenşehir','Namık Kemal','Tantavi','Site'],'Kadıköy':['Moda','Fenerbahçe','Göztepe','Erenköy','Caddebostan','Suadiye','Kozyatağı'],'Üsküdar':['Altunizade','Acıbadem','Kuzguncuk','Çengelköy','Beylerbeyi'],'Ataşehir':['Atatürk','Barbaros','İçerenköy','Küçükbakkalköy'],'Maltepe':['Bağlarbaşı','Cevizli','İdealtepe','Zümrütevler'],'Kartal':['Kordonboyu','Soğanlık','Yakacık'],'Pendik':['Kurtköy','Çınardere','Batı'],'Beşiktaş':['Levent','Etiler','Bebek','Ortaköy'],'Şişli':['Mecidiyeköy','Nişantaşı','Fulya','Esentepe'],'Bakırköy':['Ataköy','Yeşilköy','Florya','Kartaltepe'],'Sarıyer':['Tarabya','Maslak','İstinye','Yeniköy'],'Kağıthane':['Seyrantepe','Çağlayan','Gültepe']};
-const IL_DISI=['ankara','izmir','bursa','kocaeli','izmit','antalya','adana','konya','gebze','sakarya','tekirdağ','eskişehir','yalova','bolu','çorlu'];
+const IL_DISI=['darıca','ankara','izmir','bursa','kocaeli','izmit','antalya','adana','konya','gebze','sakarya','tekirdağ','eskişehir','yalova','bolu','çorlu'];
 const kucuk=s=>s.toLocaleLowerCase('tr');
 const KAYIT=[];
 ANA.forEach(i=>KAYIT.push({ilce:i,yaka:'ana',ad:i+', İstanbul'}));AVR.forEach(i=>KAYIT.push({ilce:i,yaka:'avr',ad:i+', İstanbul'}));
 Object.entries(MAH).forEach(([i,ms])=>ms.forEach(m=>KAYIT.push({ilce:i,yaka:ANA.includes(i)?'ana':'avr',ad:m+' Mah., '+i+', İstanbul'})));
+
+// Hizmet dışı bölgeler (Ali'nin kuralı; gerçek kurulumda panelden düzenlenecek)
+const DISI_ILCE=['Büyükçekmece','Silivri','Çatalca','Arnavutköy','Esenyurt','Başakşehir'];
+const DISI_KOY={'Beykoz':['Riva','Poyrazköy','Anadolu Feneri','Anadolufeneri','Polonezköy','Cumhuriyet Köyü','Elmalı Köyü','Mahmutşevketpaşa','Öğümce','Dereseki','Göllü'],
+ 'Sarıyer':['Rumelifeneri','Rumeli Feneri','Garipçe','Kısırkaya','Zekeriyaköy','Uskumruköy','Demirciköy','Gümüşdere','Kumköy','Kilyos','Bahçeköy']};
+const kelime=(metin,ad)=>new RegExp('(^|[^a-zçğıöşüâî])'+kucuk(ad).replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+'($|[^a-zçğıöşüâî])').test(kucuk(metin));
+function hizmetDisi(v,ilce){
+ if(ilce&&DISI_ILCE.includes(ilce))return ilce;
+ for(const [i,ks] of Object.entries(DISI_KOY)){ if(ilce&&ilce!==i)continue; const k=ks.find(x=>kelime(v,x)); if(k)return k+' ('+i+')'; }
+ return null;
+}
+Object.entries(DISI_KOY).forEach(([i,ks])=>ks.forEach(k=>KAYIT.push({ilce:i,yaka:ANA.includes(i)?'ana':'avr',ad:k+', '+i+', İstanbul'})));
 let adresIlce=null;
 const ai=document.getElementById('adres'),ol=document.getElementById('oneri'),an=document.getElementById('anot');
 const bul=txt=>{const k=kucuk(txt);return [...ANA,...AVR].find(i=>k.includes(kucuk(i)))||null};
@@ -187,7 +199,9 @@ function not(){
  const v=ai.value.trim();adresIlce=null;an.hidden=true;
  if(v.length>=3){
   const ilce=bul(v);
-  if(ilce){adresIlce=ilce;an.hidden=false;an.className='anot ok';an.textContent=ANA.includes(ilce)?'✓ '+ilce+' · Anadolu Yakası’na ücretsiz teslimat':'✓ '+ilce+' · İstanbul geneli teslimat';}
+  const disi=hizmetDisi(v,ilce);
+  if(disi){an.hidden=false;an.className='anot uyari';an.innerHTML='Bu bölgeye teslimat yapamıyoruz, <a href="https://wa.me/'+WA+'?text='+encodeURIComponent('Merhaba, şu adrese teslimat yapıyor musunuz: '+v)+'">WhatsApp’tan sorun</a>.';}
+  else if(ilce){adresIlce=ilce;an.hidden=false;an.className='anot ok';an.textContent=ANA.includes(ilce)?'✓ '+ilce+' · Anadolu Yakası’na ücretsiz teslimat':'✓ '+ilce+' · İstanbul geneli teslimat';}
   else if(ol.hidden&&v.length>=4&&!IL_DISI.some(x=>kucuk(v).includes(x))){an.hidden=false;an.className='anot uyari';an.textContent='İlçe adını da yazın (ör. Ümraniye, Kadıköy) ya da listeden seçin.';}
   else if(IL_DISI.some(x=>kucuk(v).includes(x))){an.hidden=false;an.className='anot uyari';
    an.innerHTML='Bu bölgeye teslimat yapamıyoruz, <a href="https://wa.me/'+WA+'?text='+encodeURIComponent('Merhaba, şu adrese teslimat yapıyor musunuz: '+v)+'">WhatsApp’tan sorun</a>.';}
