@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ürün – Lidya Flowers</title>
+<meta name="theme-color" content="#f6efe7">
+<link rel="icon" href="img/logo.webp">
+<style>
+:root{--ink:#3a2c1c;--mut:#7a6b5c;--cream:#f6efe7;--rose:#c45c6a;--rose-d:#a8485a;--pink:#f3dcd8;--line:#eadfd3;--wa:#25d366;--yesil:#2e8b57;--yesil-a:#e8f5ec;--tur:#e07a2f}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:#fff;color:var(--ink);font:15px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif}
+a{color:inherit;text-decoration:none}
+img{display:block;max-width:100%}
+.serif{font-family:Georgia,"Times New Roman",serif}
+.wrap{max-width:1100px;margin:0 auto;padding:0 16px}
+a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid var(--rose);outline-offset:2px}
+.bar{background:var(--rose);color:#fff;font-size:13px;font-weight:600;text-align:center;padding:8px 12px}
+header{position:sticky;top:0;z-index:20;background:var(--cream);border-bottom:1px solid var(--line)}
+.hd{display:flex;align-items:center;gap:12px;height:60px}
+.geri{width:40px;height:40px;display:grid;place-items:center;border-radius:50%}
+.geri svg{width:22px;height:22px;fill:none;stroke:var(--ink);stroke-width:2}
+.logo{display:flex;align-items:center;gap:10px}
+.logo img{width:40px;height:40px;border-radius:50%;object-fit:cover}
+.logo span{font-size:19px;line-height:1}
+.logo small{display:block;font:600 9px/1 system-ui,sans-serif;letter-spacing:.28em;color:var(--mut);margin-top:3px}
+.yol{font-size:12.5px;color:var(--mut);padding:12px 0 6px}
+.yol a{color:var(--rose-d);font-weight:600}
+.ust{display:grid;gap:18px;padding-bottom:30px}
+.foto{border-radius:20px;overflow:hidden;background:var(--cream);aspect-ratio:4/5}
+.foto img{width:100%;height:100%;object-fit:cover}
+h1{font-size:clamp(22px,6vw,32px);line-height:1.2;margin:0 0 6px;font-weight:400}
+.fiyat{font-size:26px;font-weight:800;margin:4px 0 6px}
+.tes{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:700;color:var(--yesil)}
+.tes svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8}
+h2{font-size:17px;margin:22px 0 10px}
+h2 small{font-weight:600;color:var(--mut);font-size:12.5px}
+/* gün kartları */
+.gunler{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.gun{position:relative;border:1.5px solid var(--line);background:#faf7f4;border-radius:14px;padding:10px 4px;text-align:center;cursor:pointer;font:inherit;color:var(--ink);min-height:74px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}
+.gun b{font-size:13.5px}
+.gun span{font-size:12px;color:var(--mut)}
+.gun.on{border-color:var(--yesil);background:var(--yesil-a)}
+.gun.on b{color:var(--yesil)}
+.gun.ozel{background:var(--pink);border-color:#ecc6c0}
+.gun.ozel b{color:var(--rose-d);font-size:12px;line-height:1.15}
+.gun.ozel.on{border-color:var(--yesil);background:var(--yesil-a)}
+.gun svg{width:22px;height:22px;fill:none;stroke:var(--ink);stroke-width:1.8}
+.gun input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%}
+.gun:disabled{opacity:.45;cursor:not-allowed}
+/* saat dilimleri */
+.dilimler{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.dilim{border:1.5px solid var(--line);background:#fff;border-radius:12px;padding:10px 12px;text-align:left;cursor:pointer;font:inherit;color:var(--ink)}
+.dilim b{display:block;font-size:15px}
+.dilim span{font-size:12px;color:var(--mut)}
+.dilim.on{border-color:var(--yesil);background:var(--yesil-a)}
+.dilim.on span{color:var(--yesil);font-weight:700}
+.dilim:disabled{background:#f4f2f0;color:#aaa;cursor:not-allowed;border-style:dashed}
+.dilim.dolu:disabled span{color:var(--rose-d);font-weight:700}
+/* bilgi kutusu */
+.bilgi{margin-top:12px;background:var(--yesil-a);border:1px solid #cfe9d8;border-radius:14px;padding:12px 14px;font-size:13.5px}
+.bilgi .s{display:flex;align-items:center;gap:8px;font-weight:700}
+.bilgi .s svg{width:20px;height:20px;fill:none;stroke:var(--tur);stroke-width:2;flex:0 0 auto}
+.bilgi .s em{font-style:normal;color:var(--tur)}
+.cubuk{height:6px;border-radius:9px;background:#d9eee0;margin:9px 0 7px;overflow:hidden}
+.cubuk i{display:block;height:100%;background:linear-gradient(90deg,var(--tur),#e8467c);border-radius:9px}
+.bilgi p{margin:0;color:var(--ink)}
+textarea{width:100%;min-height:80px;border:1.5px solid var(--line);border-radius:12px;padding:10px 12px;font:inherit;resize:vertical}
+.ozet{margin-top:16px;font-size:13.5px;color:var(--mut);min-height:1.5em}
+.ozet b{color:var(--ink)}
+.al{position:sticky;bottom:0;background:#fff;border-top:1px solid var(--line);padding:10px 0 12px;margin-top:14px;z-index:5}
+.al button{width:100%;height:54px;border:0;border-radius:999px;background:#e8467c;color:#fff;font:800 16px/1 system-ui,sans-serif;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px}
+.al button:disabled{background:#e9c9d3;cursor:not-allowed}
+.al button svg{width:20px;height:20px;fill:currentColor}
+.acik{font-size:14px;color:var(--ink);background:var(--cream);border-radius:14px;padding:14px;margin-top:18px}
+.acik b{display:block;margin-bottom:4px}
+footer{background:var(--ink);color:#d8cbbd;padding:22px 0;font-size:12.5px;text-align:center}
+@media(min-width:860px){
+ .ust{grid-template-columns:1fr 1fr;gap:44px;align-items:start;padding-top:10px}
+ .foto{position:sticky;top:80px}
+}
+@media(max-width:370px){.gun b{font-size:12px}.gun span{font-size:11px}}
+</style>
+</head>
+<body>
+<div class="bar">🌷 İstanbul geneli aynı gün teslimat · 17:59'a kadar verilen siparişler bugün</div>
+<header><div class="wrap hd">
+ <a class="geri" href="index.html#urunler" aria-label="Geri"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></a>
+ <a class="logo" href="index.html"><img src="img/logo.webp" alt="" width="40" height="40"><span class="serif">Lidya<small>FLOWERS</small></span></a>
+</div></header>
+
+<main class="wrap">
+ <div class="yol"><a href="index.html">Ana Sayfa</a> › <a href="index.html#urunler">Çiçekler</a> › <span id="yolAd"></span></div>
+ <div class="ust">
+  <div class="foto"><img id="img" src="" alt="" width="640" height="800" fetchpriority="high"></div>
+  <div>
+   <h1 id="ad" class="serif"></h1>
+   <div class="fiyat" id="fiyat"></div>
+   <div class="tes"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 6h11v9H2zM13 9h4l3 3v3h-7z"/><circle cx="6" cy="17" r="1.8"/><circle cx="17" cy="17" r="1.8"/></svg>Aynı Gün Teslimat</div>
+
+   <h2>Teslimat Günü</h2>
+   <div class="gunler" id="gunler" role="radiogroup" aria-label="Teslimat günü"></div>
+
+   <h2>Teslimat Saati <small>· her dilim en fazla 5 sipariş</small></h2>
+   <div class="dilimler" id="dilimler" role="radiogroup" aria-label="Teslimat saati"></div>
+
+   <div class="bilgi" id="bilgi" aria-live="polite"></div>
+
+   <h2>Kart Notu <small>(isteğe bağlı)</small></h2>
+   <textarea id="not" maxlength="200" placeholder="Çiçekle birlikte gidecek mesajınız"></textarea>
+
+   <div class="ozet" id="ozet" aria-live="polite">Lütfen teslimat günü ve saat dilimi seçin.</div>
+   <div class="al"><button id="sepet" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 8h14l-1.2 11.2a2 2 0 0 1-2 1.8H8.2a2 2 0 0 1-2-1.8zM9 8V6a3 3 0 0 1 6 0v2" fill="none" stroke="currentColor" stroke-width="2"/></svg>Sepete Ekle</button></div>
+
+   <div class="acik"><b>Teslimat Bilgisi</b>İstanbul genelinde 17:59'a kadar verilen siparişler aynı gün 21:00'e kadar teslim edilir. İleri bir tarih için takvimden gün seçebilirsiniz.</div>
+  </div>
+ </div>
+</main>
+<footer>© 2026 Lidya Flowers · Tasarım önizlemesidir</footer>
+
+<script>
+const P=[["Pembe Krizantem ve Kuru Portakal Detaylı Buket", "1.399,00", "img/u0.webp"], ["Ayçiçeği ve Yeşil Ponpon Çiçekli Siyah Kutu", "1.499,00", "img/u1.webp"], ["Soft Pembe Gül ve Lilyum Buketi", "1.749,00", "img/u2.webp"], ["Turuncu Kasımpatı ve Yeşil Ponpon Buketi", "1.099,00", "img/u3.webp"], ["Toz Pembe Gül ve Bordo Papatya Buketi", "1.299,00", "img/u4.webp"], ["Kelebek Kanatlarında Beyaz Papatya Buketi", "1.249,00", "img/u5.webp"], ["Renklerin Büyüsü – Karışık Kasımpatı Buketi", "999,00", "img/u6.webp"], ["Ayçiçeği ve Beyaz Papatya Buketi – Özel Tasarım", "1.299,00", "img/u8.webp"], ["Turuncu Kasımpatı Buketi – Gazete Desenli Özel Tasarım", "1.099,00", "img/u9.webp"], ["Beyaz Lilyum Vazoda – Zarif ve Şık Çiçek Tasarımı", "1.099,00", "img/u10.webp"], ["Pembe Lilyum Buketi – Zarif Pembe Lilyumlarla Özel Tasarım", "1.999,00", "img/u11.webp"], ["9 Kırmızı Gül Şeffaf Çanta Tasarımında", "1.299,00", "img/u12.webp"], ["Beyaz Papatya ve Yeşil Detaylı Zarif Buket", "1.299,00", "img/u13.webp"], ["Mor Pembe Kasımpatı Vazoda", "1.399,00", "img/u14.webp"], ["Mor ve Beyaz Papatya Buketi", "1.099,00", "img/u15.webp"], ["Fuşya Ambalajlı Schefflera", "849,00", "img/u16.webp"], ["Kırmızı Antoryum Çiçeği – Zarif ve Modern Aranjman", "749,00", "img/u17.webp"], ["Siyah Kutuda Soft Pembe Gül ve Kinder Joy Çikolata Aranjmanı", "2.999,00", "img/u18.webp"], ["Siyah Kutuda Kırmızı Gül ve Ferrero Rocher Çikolata Aranjmanı", "2.699,00", "img/u19.webp"]];
+const WA='905394332569';
+const DILIM=[[9,12],[12,15],[15,18],[18,21]];
+const KESIM=17*60+59; // aynı gün son sipariş 17:59
+const OZEL={m:10,d:24,ad:'Öğretmenler Günü'}; // 24 Kasım
+const AY=['Ocak','Şubat','Mart','Nisan','Mayıs','Haziran','Temmuz','Ağustos','Eylül','Ekim','Kasım','Aralık'];
+const q=new URLSearchParams(location.search);const p=P[+q.get('u')]||P[0];
+document.title=p[0]+' – Lidya Flowers';
+document.getElementById('ad').textContent=p[0];document.getElementById('yolAd').textContent=p[0];
+document.getElementById('fiyat').textContent='₺'+p[1];
+const im=document.getElementById('img');im.src=p[2];im.alt=p[0];
+
+const simdi=new Date();const bugun=new Date(simdi.getFullYear(),simdi.getMonth(),simdi.getDate());
+const dk=simdi.getHours()*60+simdi.getMinutes();
+const gunEkle=(d,n)=>new Date(d.getFullYear(),d.getMonth(),d.getDate()+n);
+const ayni=(a,b)=>a.getTime()===b.getTime();
+const etiket=d=>d.getDate()+' '+AY[d.getMonth()];
+const iso=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+// demo kontenjan: her gün için sabit "dolu" örneği (gerçekte sipariş sayısından gelir)
+function doluluk(d,i){const s=(d.getDate()*7+i*3)%6; if(i===((d.getDate())%4))return 5; return Math.min(s,4);}
+function dilimDurum(d,i){
+ const [b,e]=DILIM[i];
+ if(ayni(d,bugun)){ if(dk>KESIM) return {kapali:true,yazi:'Bugün için sipariş kapandı'}; if(dk>=e*60) return {kapali:true,yazi:'Saati geçti'}; }
+ const n=doluluk(d,i); if(n>=5) return {kapali:true,dolu:true,yazi:'Kontenjan dolu'};
+ return {kapali:false,yazi:(5-n)+' yer kaldı'};
+}
+let secGun=null,secDilim=null;
+const ozelTarih=(()=>{let t=new Date(bugun.getFullYear(),OZEL.m,OZEL.d);if(t<bugun)t=new Date(bugun.getFullYear()+1,OZEL.m,OZEL.d);return t})();
+const ozelYakin=(ozelTarih-bugun)/864e5<=14&&(ozelTarih-bugun)/864e5>1;
+function gunleriCiz(){
+ const g=document.getElementById('gunler');g.innerHTML='';
+ const bugunAcik=dk<=KESIM;
+ const ogeler=[{d:bugun,b:'Bugün',acik:bugunAcik},{d:gunEkle(bugun,1),b:'Yarın',acik:true}];
+ if(ozelYakin) ogeler.push({d:ozelTarih,b:OZEL.ad,ozel:true,acik:true}); else ogeler.push({d:gunEkle(bugun,2),b:['Pazar','Pazartesi','Salı','Çarşamba','Perşembe','Cuma','Cumartesi'][gunEkle(bugun,2).getDay()],acik:true});
+ ogeler.forEach(o=>{const bt=document.createElement('button');bt.type='button';bt.className='gun'+(o.ozel?' ozel':'');bt.setAttribute('role','radio');
+  bt.innerHTML='<b>'+o.b+'</b><span>'+etiket(o.d)+'</span>';bt.disabled=!o.acik;bt.dataset.t=iso(o.d);
+  bt.onclick=()=>gunSec(o.d);g.appendChild(bt)});
+ const tk=document.createElement('label');tk.className='gun';tk.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg><b>Takvim</b><span id="tkYazi">Tarih seç</span><input type="date" aria-label="Takvimden tarih seç" min="'+iso(gunEkle(bugun,bugunAcik?0:1))+'" max="'+iso(gunEkle(bugun,30))+'">';
+ tk.querySelector('input').onchange=e=>{const [y,m,d]=e.target.value.split('-').map(Number);if(y)gunSec(new Date(y,m-1,d),true)};
+ g.appendChild(tk);
+}
+function gunSec(d,takvim){
+ secGun=d;secDilim=null;
+ document.querySelectorAll('.gun').forEach(x=>{const on=takvim?x.tagName==='LABEL':x.dataset.t===iso(d);x.classList.toggle('on',on);x.setAttribute('aria-checked',on)});
+ document.getElementById('tkYazi').textContent=takvim?etiket(d):'Tarih seç';
+ dilimleriCiz();ozet();
+}
+function dilimleriCiz(){
+ const w=document.getElementById('dilimler');w.innerHTML='';
+ DILIM.forEach(([b,e],i)=>{const s=dilimDurum(secGun,i);const bt=document.createElement('button');bt.type='button';bt.setAttribute('role','radio');
+  bt.className='dilim'+(s.dolu?' dolu':'');bt.disabled=s.kapali;
+  bt.innerHTML='<b>'+String(b).padStart(2,'0')+':00 – '+e+':00</b><span>'+s.yazi+'</span>';
+  bt.onclick=()=>{secDilim=i;document.querySelectorAll('.dilim').forEach((x,j)=>{x.classList.toggle('on',j===i);x.setAttribute('aria-checked',j===i)});ozet()};
+  w.appendChild(bt)});
+}
+function bilgi(){
+ const k=document.getElementById('bilgi');const kalan=KESIM-dk;
+ const saat=`<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>`;
+ if(kalan>=0){const h=Math.floor(kalan/60),m=kalan%60;const oran=Math.max(4,Math.min(100,100-kalan/(KESIM-9*60)*100));
+  k.innerHTML=`<div class="s">${saat}<span>Aynı gün teslimat için son <em>${h?h+' saat ':''}${m} dakika</em></span></div><div class="cubuk"><i style="width:${oran}%"></i></div><p>Siparişinizi 17:59'a kadar verin, bugün 21:00'e kadar teslim edelim.</p>`;}
+ else k.innerHTML=`<div class="s">${saat}<span>Bugünkü teslimatlar kapandı</span></div><p>Yarın için ilk saat diliminden itibaren teslimat seçebilirsiniz.</p>`;
+}
+function ozet(){
+ const o=document.getElementById('ozet');const b=document.getElementById('sepet');
+ if(secGun&&secDilim!==null){const [x,y]=DILIM[secDilim];o.innerHTML='Teslimat: <b>'+etiket(secGun)+', '+String(x).padStart(2,'0')+':00–'+y+':00</b>';b.disabled=false}
+ else{o.textContent=secGun?'Lütfen bir saat dilimi seçin.':'Lütfen teslimat günü ve saat dilimi seçin.';b.disabled=true}
+}
+document.getElementById('sepet').onclick=()=>{const [x,y]=DILIM[secDilim];const n=document.getElementById('not').value.trim();
+ const t='Merhaba, sipariş vermek istiyorum.\nÜrün: '+p[0]+' (₺'+p[1]+')\nTeslimat: '+etiket(secGun)+' '+String(x).padStart(2,'0')+':00-'+y+':00'+(n?'\nKart notu: '+n:'');
+ location.href='https://wa.me/'+WA+'?text='+encodeURIComponent(t)};
+gunleriCiz();bilgi();
+const ilk=[...document.querySelectorAll('.gun')].find(x=>!x.disabled&&x.dataset.t);
+gunSec(ilk?new Date(ilk.dataset.t+'T00:00'):gunEkle(bugun,1));
+</script>
+</body>
+</html>
