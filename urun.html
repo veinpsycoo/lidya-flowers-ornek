@@ -174,7 +174,7 @@ function dilimDurum(d,i){
 // İstanbul ilçeleri (yaka) + örnek mahalleler — demo için statik liste
 const ANA=['Adalar','Ataşehir','Beykoz','Çekmeköy','Kadıköy','Kartal','Maltepe','Pendik','Sancaktepe','Sultanbeyli','Şile','Tuzla','Ümraniye','Üsküdar'];
 const AVR=['Arnavutköy','Avcılar','Bağcılar','Bahçelievler','Bakırköy','Başakşehir','Bayrampaşa','Beşiktaş','Beylikdüzü','Beyoğlu','Büyükçekmece','Çatalca','Esenler','Esenyurt','Eyüpsultan','Fatih','Gaziosmanpaşa','Güngören','Kağıthane','Küçükçekmece','Sarıyer','Silivri','Sultangazi','Şişli','Zeytinburnu'];
-const MAH={'Ümraniye':['Elmalıkent','Atakent','Çakmak','Esenşehir','Namık Kemal','Tantavi','Site'],'Kadıköy':['Moda','Fenerbahçe','Göztepe','Erenköy','Caddebostan','Suadiye','Kozyatağı'],'Üsküdar':['Altunizade','Acıbadem','Kuzguncuk','Çengelköy','Beylerbeyi'],'Ataşehir':['Atatürk','Barbaros','İçerenköy','Küçükbakkalköy'],'Maltepe':['Bağlarbaşı','Cevizli','İdealtepe','Zümrütevler'],'Kartal':['Kordonboyu','Soğanlık','Yakacık'],'Pendik':['Kurtköy','Çınardere','Batı'],'Beşiktaş':['Levent','Etiler','Bebek','Ortaköy'],'Şişli':['Mecidiyeköy','Nişantaşı','Fulya','Esentepe'],'Bakırköy':['Ataköy','Yeşilköy','Florya','Kartaltepe'],'Sarıyer':['Tarabya','Maslak','İstinye','Yeniköy'],'Kağıthane':['Seyrantepe','Çağlayan','Gültepe']};
+const MAH={'Ümraniye':['Adem Yavuz', 'Altınşehir', 'Armağanevler', 'Aşağı Dudullu', 'Atakent', 'Atatürk', 'Cemil Meriç', 'Çakmak', 'Çamlık', 'Dumlupınar', 'Elmalıkent', 'Esenevler', 'Esenkent', 'Esenşehir', 'Fatih Sultan Mehmet', 'Hekimbaşı', 'Huzur', 'Ihlamurkuyu', 'İnkılap', 'İstiklal', 'Kazım Karabekir', 'Madenler', 'Mehmet Akif', 'Namık Kemal', 'Necip Fazıl', 'Parseller', 'Saray', 'Site', 'Şerifali', 'Tantavi', 'Tatlısu', 'Tepeüstü', 'Topağacı', 'Yamanevler', 'Yaşar Doğu', 'Yukarı Dudullu'],'Kadıköy':['Moda','Fenerbahçe','Göztepe','Erenköy','Caddebostan','Suadiye','Kozyatağı'],'Üsküdar':['Altunizade','Acıbadem','Kuzguncuk','Çengelköy','Beylerbeyi'],'Ataşehir':['Atatürk','Barbaros','İçerenköy','Küçükbakkalköy'],'Maltepe':['Bağlarbaşı','Cevizli','İdealtepe','Zümrütevler'],'Kartal':['Kordonboyu','Soğanlık','Yakacık'],'Pendik':['Kurtköy','Çınardere','Batı'],'Beşiktaş':['Levent','Etiler','Bebek','Ortaköy'],'Şişli':['Mecidiyeköy','Nişantaşı','Fulya','Esentepe'],'Bakırköy':['Ataköy','Yeşilköy','Florya','Kartaltepe'],'Sarıyer':['Tarabya','Maslak','İstinye','Yeniköy'],'Kağıthane':['Seyrantepe','Çağlayan','Gültepe']};
 const IL_DISI=['darıca','ankara','izmir','bursa','kocaeli','izmit','antalya','adana','konya','gebze','sakarya','tekirdağ','eskişehir','yalova','bolu','çorlu'];
 const kucuk=s=>s.toLocaleLowerCase('tr');
 const KAYIT=[];
@@ -194,7 +194,9 @@ function hizmetDisi(v,ilce){
 Object.entries(DISI_KOY).forEach(([i,ks])=>ks.forEach(k=>KAYIT.push({ilce:i,yaka:ANA.includes(i)?'ana':'avr',ad:k+', '+i+', İstanbul'})));
 let adresIlce=null;
 const ai=document.getElementById('adres'),ol=document.getElementById('oneri'),an=document.getElementById('anot');
-const bul=txt=>{const k=kucuk(txt);return [...ANA,...AVR].find(i=>k.includes(kucuk(i)))||null};
+const bul=txt=>{const k=kucuk(txt);const i=[...ANA,...AVR].find(i=>k.includes(kucuk(i)));if(i)return i;
+ // ilçe yazılmadıysa bilinen mahalleden bul (tek ilçeye denk geliyorsa)
+ const m=[...new Set(Object.entries(MAH).filter(([il,ms])=>ms.some(x=>kelime(txt,x))).map(([il])=>il))];return m.length===1?m[0]:null};
 function not(){
  const v=ai.value.trim();adresIlce=null;an.hidden=true;
  if(v.length>=3){
