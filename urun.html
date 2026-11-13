@@ -153,7 +153,10 @@ footer{background:var(--ink);color:#d8cbbd;padding:22px 0;font-size:12.5px;text-
 const P=[["Pembe Krizantem ve Kuru Portakal Detaylı Buket", "1.399,00", "img/u0.webp"], ["Ayçiçeği ve Yeşil Ponpon Çiçekli Siyah Kutu", "1.499,00", "img/u1.webp"], ["Soft Pembe Gül ve Lilyum Buketi", "1.749,00", "img/u2.webp"], ["Turuncu Kasımpatı ve Yeşil Ponpon Buketi", "1.099,00", "img/u3.webp"], ["Toz Pembe Gül ve Bordo Papatya Buketi", "1.299,00", "img/u4.webp"], ["Kelebek Kanatlarında Beyaz Papatya Buketi", "1.249,00", "img/u5.webp"], ["Renklerin Büyüsü – Karışık Kasımpatı Buketi", "999,00", "img/u6.webp"], ["Ayçiçeği ve Beyaz Papatya Buketi – Özel Tasarım", "1.299,00", "img/u8.webp"], ["Turuncu Kasımpatı Buketi – Gazete Desenli Özel Tasarım", "1.099,00", "img/u9.webp"], ["Beyaz Lilyum Vazoda – Zarif ve Şık Çiçek Tasarımı", "1.099,00", "img/u10.webp"], ["Pembe Lilyum Buketi – Zarif Pembe Lilyumlarla Özel Tasarım", "1.999,00", "img/u11.webp"], ["9 Kırmızı Gül Şeffaf Çanta Tasarımında", "1.299,00", "img/u12.webp"], ["Beyaz Papatya ve Yeşil Detaylı Zarif Buket", "1.299,00", "img/u13.webp"], ["Mor Pembe Kasımpatı Vazoda", "1.399,00", "img/u14.webp"], ["Mor ve Beyaz Papatya Buketi", "1.099,00", "img/u15.webp"], ["Fuşya Ambalajlı Schefflera", "849,00", "img/u16.webp"], ["Kırmızı Antoryum Çiçeği – Zarif ve Modern Aranjman", "749,00", "img/u17.webp"], ["Siyah Kutuda Soft Pembe Gül ve Kinder Joy Çikolata Aranjmanı", "2.999,00", "img/u18.webp"], ["Siyah Kutuda Kırmızı Gül ve Ferrero Rocher Çikolata Aranjmanı", "2.699,00", "img/u19.webp"]];
 const WA='905394332569';
 const DILIM=[[9,12],[12,15],[15,18],[18,21]];
-const KESIM=17*60+59; // aynı gün son sipariş 17:59
+// yönetim panelindeki ayarlar (aynı tarayıcı, demo)
+const AYAR=(()=>{try{return JSON.parse(localStorage.getItem('lidya-ayar'))||{}}catch(e){return {}}})();
+const KESIM_YAZI=/^\d\d:\d\d$/.test(AYAR.kesim||'')?AYAR.kesim:'17:59';
+const KESIM=(+KESIM_YAZI.slice(0,2))*60+(+KESIM_YAZI.slice(3)); // aynı gün son sipariş
 const OZEL={m:10,d:24,ad:'Öğretmenler Günü'}; // 24 Kasım
 const AY=['Ocak','Şubat','Mart','Nisan','Mayıs','Haziran','Temmuz','Ağustos','Eylül','Ekim','Kasım','Aralık'];
 const q=new URLSearchParams(location.search);const p=P[+q.get('u')]||P[0];
@@ -173,7 +176,10 @@ function doluluk(d,i){const s=(d.getDate()*7+i*3)%6; if(i===((d.getDate())%4))re
 function dilimDurum(d,i){
  const [b,e]=DILIM[i];
  if(ayni(d,bugun)){ if(dk>KESIM) return {kapali:true,yazi:'Bugün için sipariş kapandı'}; if(dk>=e*60) return {kapali:true,yazi:'Saati geçti'}; }
- const n=doluluk(d,i); if(n>=5) return {kapali:true,dolu:true,yazi:'Dolu'};
+ if((AYAR.kapaliGun||[]).includes(iso(d))) return {kapali:true,yazi:'Bu gün kapalı'};
+ if(((AYAR.kapaliDilim||{})[iso(d)]||[]).includes(i)) return {kapali:true,dolu:true,yazi:'Dolu'};
+ const kon=(AYAR.kontenjan||[5,5,5,5])[i]??5;
+ const n=doluluk(d,i); if(kon<=0||n>=kon) return {kapali:true,dolu:true,yazi:'Dolu'};
  return {kapali:false,yazi:'Uygun'};
 }
 
@@ -188,8 +194,8 @@ ANA.forEach(i=>KAYIT.push({ilce:i,yaka:'ana',ad:i+', İstanbul'}));AVR.forEach(i
 Object.entries(MAH).forEach(([i,ms])=>ms.forEach(m=>KAYIT.push({ilce:i,yaka:ANA.includes(i)?'ana':'avr',ad:m+' Mah., '+i+', İstanbul'})));
 
 // Hizmet dışı bölgeler (Ali'nin kuralı; gerçek kurulumda panelden düzenlenecek)
-const DISI_ILCE=['Büyükçekmece','Silivri','Çatalca','Arnavutköy','Esenyurt','Başakşehir'];
-const DISI_KOY={'Beykoz':['Riva','Poyrazköy','Anadolu Feneri','Anadolufeneri','Polonezköy','Cumhuriyet Köyü','Elmalı Köyü','Mahmutşevketpaşa','Öğümce','Dereseki','Göllü'],
+const DISI_ILCE=AYAR.disiIlce||['Büyükçekmece','Silivri','Çatalca','Arnavutköy','Esenyurt','Başakşehir'];
+const DISI_KOY=AYAR.disiKoy||{'Beykoz':['Riva','Poyrazköy','Anadolu Feneri','Anadolufeneri','Polonezköy','Cumhuriyet Köyü','Elmalı Köyü','Mahmutşevketpaşa','Öğümce','Dereseki','Göllü'],
  'Sarıyer':['Rumelifeneri','Rumeli Feneri','Garipçe','Kısırkaya','Zekeriyaköy','Uskumruköy','Demirciköy','Gümüşdere','Kumköy','Kilyos','Bahçeköy']};
 const kelime=(metin,ad)=>new RegExp('(^|[^a-zçğıöşüâî])'+kucuk(ad).replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+'($|[^a-zçğıöşüâî])').test(kucuk(metin));
 function hizmetDisi(v,ilce){
@@ -240,7 +246,7 @@ function gunleriCiz(){
  const ogeler=[{d:bugun,b:'Bugün',acik:bugunAcik},{d:gunEkle(bugun,1),b:'Yarın',acik:true}];
  if(ozelYakin) ogeler.push({d:ozelTarih,b:OZEL.ad,ozel:true,acik:true}); else ogeler.push({d:gunEkle(bugun,2),b:['Pazar','Pazartesi','Salı','Çarşamba','Perşembe','Cuma','Cumartesi'][gunEkle(bugun,2).getDay()],acik:true});
  ogeler.forEach(o=>{const bt=document.createElement('button');bt.type='button';bt.className='gun'+(o.ozel?' ozel':'');bt.setAttribute('role','radio');
-  bt.innerHTML='<b>'+o.b+'</b><span>'+etiket(o.d)+'</span>';bt.disabled=!o.acik;bt.dataset.t=iso(o.d);
+  bt.innerHTML='<b>'+o.b+'</b><span>'+etiket(o.d)+'</span>';bt.disabled=!o.acik||(AYAR.kapaliGun||[]).includes(iso(o.d));bt.dataset.t=iso(o.d);
   bt.onclick=()=>gunSec(o.d);g.appendChild(bt)});
  const tk=document.createElement('label');tk.className='gun';tk.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg><b>Takvim</b><span id="tkYazi">Tarih seç</span><input type="date" aria-label="Takvimden tarih seç" min="'+iso(gunEkle(bugun,bugunAcik?0:1))+'" max="'+iso(gunEkle(bugun,30))+'">';
  tk.querySelector('input').onchange=e=>{const [y,m,d]=e.target.value.split('-').map(Number);if(y)gunSec(new Date(y,m-1,d),true)};
@@ -264,7 +270,7 @@ function bilgi(){
  const k=document.getElementById('bilgi');const kalan=KESIM-dk;
  const saat=`<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>`;
  if(kalan>=0){const h=Math.floor(kalan/60),m=kalan%60;const oran=Math.max(4,Math.min(100,100-kalan/(KESIM-9*60)*100));
-  k.innerHTML=`<div class="s">${saat}<span>Aynı gün teslimat için son <em>${h?h+' saat ':''}${m} dakika</em></span></div><div class="cubuk"><i style="width:${oran}%"></i></div><p>Siparişinizi 17:59'a kadar verin, bugün 21:00'e kadar teslim edelim.</p>`;}
+  k.innerHTML=`<div class="s">${saat}<span>Aynı gün teslimat için son <em>${h?h+' saat ':''}${m} dakika</em></span></div><div class="cubuk"><i style="width:${oran}%"></i></div><p>Siparişinizi ${KESIM_YAZI}'a kadar verin, bugün 21:00'e kadar teslim edelim.</p>`;}
  else k.innerHTML=`<div class="s">${saat}<span>Bugünkü teslimatlar kapandı</span></div><p>Yarın için ilk saat diliminden itibaren teslimat seçebilirsiniz.</p>`;
 }
 function ozet(){

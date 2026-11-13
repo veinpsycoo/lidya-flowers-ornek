@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Yönetim – Lidya Flowers (örnek)</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="img/logo.webp">
+<style>
+:root{--ink:#3a2c1c;--mut:#7a6b5c;--cream:#f6efe7;--rose:#c45c6a;--rose-d:#a8485a;--pink:#f3dcd8;--line:#eadfd3;--yesil:#2e8b57;--yesil-a:#e8f5ec;--bg:#faf7f4}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:14.5px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif}
+a{color:inherit}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--rose);outline-offset:2px}
+.not{background:#3a2c1c;color:#f3e9de;font-size:12.5px;text-align:center;padding:7px 12px}
+header{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:10}
+.hd{max-width:1100px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;gap:10px}
+.hd img{width:36px;height:36px;border-radius:50%;object-fit:cover}
+.hd b{font-family:Georgia,serif;font-size:18px;font-weight:400}
+.hd span{font-size:12px;color:var(--mut)}
+.hd a{margin-left:auto;font-size:13px;font-weight:700;color:var(--rose-d);text-decoration:none}
+nav{max-width:1100px;margin:0 auto;display:flex;gap:4px;overflow-x:auto;padding:0 12px;scrollbar-width:none}
+nav::-webkit-scrollbar{display:none}
+nav button{flex:0 0 auto;border:0;background:none;padding:10px 12px;font-weight:700;font-size:13.5px;color:var(--mut);border-bottom:3px solid transparent;cursor:pointer}
+nav button[aria-selected=true]{color:var(--ink);border-bottom-color:var(--rose)}
+main{max-width:1100px;margin:0 auto;padding:16px}
+section[hidden]{display:none}
+h2{font-size:19px;margin:0 0 12px}
+h3{font-size:15px;margin:18px 0 8px}
+.kart{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:12px}
+.ara{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:12px}
+.kap{display:flex;gap:6px}
+.kap button{height:36px;padding:0 14px;border:1px solid #d9d2cb;background:#fff;border-radius:999px;font-weight:600;cursor:pointer}
+.kap button.on{background:var(--ink);border-color:var(--ink);color:#fff}
+.btn{height:38px;padding:0 14px;border-radius:10px;border:1px solid var(--line);background:#fff;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+.btn.ana{background:var(--rose);border-color:var(--rose);color:#fff}
+.btn.sil{color:#b42318;border-color:#f3c7c3}
+.sag{margin-left:auto;display:flex;gap:8px}
+.ozet{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px}
+.ozet div{background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px;text-align:center}
+.ozet b{display:block;font-size:20px}
+.ozet span{font-size:11.5px;color:var(--mut)}
+.sip{display:grid;gap:4px}
+.sip .ust{display:flex;justify-content:space-between;gap:8px;align-items:center}
+.sip .no{font-weight:800}
+.sip .dl{font-size:12.5px;font-weight:700;background:var(--yesil-a);color:var(--yesil);border-radius:999px;padding:3px 10px;white-space:nowrap}
+.sip small{color:var(--mut)}
+.sip .kn{font-style:italic;color:var(--ink);background:var(--cream);border-radius:8px;padding:6px 8px;font-size:13px}
+.durum{height:34px;border-radius:8px;border:1px solid var(--line);padding:0 8px;font-weight:700;max-width:170px}
+.d-Yeni{background:#fff4e5;color:#b45309}.d-Hazırlanıyor{background:#eef2ff;color:#4338ca}.d-Yolda{background:#e0f2fe;color:#0369a1}.d-Teslim{background:var(--yesil-a);color:var(--yesil)}
+.alan{display:grid;gap:4px;margin-bottom:12px}
+.alan label{font-weight:700;font-size:13.5px}
+.alan small{color:var(--mut);font-size:12px}
+input[type=number],input[type=text],input[type=time],input[type=date],select.g{height:42px;border:1px solid #d9d2cb;border-radius:10px;padding:0 12px;background:#fff;width:100%}
+.dilimler{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.dilim{border:1px solid var(--line);border-radius:12px;padding:10px;display:grid;gap:8px}
+.dilim b{font-size:15px}
+.anah{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:13px}
+.sw{position:relative;width:46px;height:26px;flex:0 0 auto}
+.sw input{position:absolute;opacity:0;width:100%;height:100%;margin:0;cursor:pointer}
+.sw i{position:absolute;inset:0;background:#d6d0ca;border-radius:13px;transition:.2s;pointer-events:none}
+.sw i::after{content:"";position:absolute;left:3px;top:3px;width:20px;height:20px;border-radius:50%;background:#fff;transition:.2s}
+.sw input:checked+i{background:var(--yesil)}
+.sw input:checked+i::after{left:23px}
+.etiketler{display:flex;flex-wrap:wrap;gap:6px}
+.etiketler span{display:inline-flex;align-items:center;gap:4px;background:var(--cream);border:1px solid var(--line);border-radius:999px;padding:4px 6px 4px 12px;font-size:13px}
+.etiketler button{border:0;background:none;width:24px;height:24px;border-radius:50%;cursor:pointer;color:#b42318;font-size:16px;line-height:1}
+.ekle{display:flex;gap:8px;margin-top:10px}
+.ekle input{flex:1}
+.urunler{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.ur{background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden;font-size:13px}
+.kare{position:relative;aspect-ratio:1/1;background:#fbf8f5;overflow:hidden}
+.kare::before{content:"";position:absolute;inset:-20px;background:var(--bg-img) center/cover;filter:blur(18px);opacity:.35}
+.kare img{position:relative;width:100%;height:100%;object-fit:contain}
+.ur div.b{padding:8px 10px}
+.ur b{display:block;line-height:1.3}
+.ur .y{font-size:11px;font-weight:800;color:#fff;background:var(--rose);border-radius:999px;padding:2px 8px;display:inline-block;margin-top:4px}
+.form{display:grid;gap:10px}
+.onizle{width:180px}
+.yuk{display:flex;align-items:center;justify-content:center;height:46px;border:1.5px dashed #cdbfb1;border-radius:12px;cursor:pointer;font-weight:700;color:var(--rose-d);background:#fff}
+.yuk input{position:absolute;opacity:0;width:1px;height:1px}
+.bilgi{font-size:12.5px;color:var(--mut);margin-top:6px}
+.toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);background:var(--ink);color:#fff;padding:10px 18px;border-radius:999px;font-weight:700;opacity:0;transition:.2s;pointer-events:none;z-index:50}
+.toast.ac{opacity:1}
+@media(min-width:760px){.ozet span{font-size:12.5px}.urunler{grid-template-columns:repeat(4,1fr)}.dilimler{grid-template-columns:repeat(4,1fr)}.sip{grid-template-columns:1.2fr 1fr auto;align-items:start;gap:12px}.sip .ust{grid-column:1/-1}}
+@media print{
+ .not,header,nav,.ara,.ozet,.durum,.toast{display:none!important}
+ body{background:#fff}main{padding:0}
+ section:not(#siparisler){display:none!important}
+ .kart{break-inside:avoid;border-color:#999}
+ #yazBaslik{display:block!important}
+}
+</style>
+</head>
+<body>
+<div class="not">Örnek yönetim paneli — gerçek sitede platformun kendi paneli kullanılır. Değişiklikler yalnız bu tarayıcıda saklanır.</div>
+<header>
+ <div class="hd"><img src="img/logo.webp" alt=""><div><b>Lidya Flowers</b><br><span>Yönetim</span></div><a href="index.html" target="_blank" rel="noopener">Siteyi gör ↗</a></div>
+ <nav role="tablist" aria-label="Yönetim bölümleri">
+  <button role="tab" aria-selected="true" aria-controls="siparisler" id="t1">Siparişler</button>
+  <button role="tab" aria-selected="false" aria-controls="teslimat" id="t2">Teslimat Ayarları</button>
+  <button role="tab" aria-selected="false" aria-controls="bolgeler" id="t3">Hizmet Dışı Bölgeler</button>
+  <button role="tab" aria-selected="false" aria-controls="urunler" id="t4">Ürünler</button>
+ </nav>
+</header>
+
+<main>
+<!-- 1) SİPARİŞLER -->
+<section id="siparisler" role="tabpanel" aria-labelledby="t1">
+ <h2 id="yazBaslik" style="display:none"></h2>
+ <div class="ara">
+  <div class="kap" role="group" aria-label="Gün"><button class="on" data-g="0">Bugün</button><button data-g="1">Yarın</button><button data-g="t">Tümü</button></div>
+  <div class="sag"><button class="btn" id="yazdir">🖨 Yazdır</button><button class="btn" id="indir">⬇ İndir</button></div>
+ </div>
+ <div class="ozet" id="ozet"></div>
+ <div id="sipListe"></div>
+</section>
+
+<!-- 2) TESLİMAT AYARLARI -->
+<section id="teslimat" role="tabpanel" aria-labelledby="t2" hidden>
+ <h2>Teslimat Ayarları</h2>
+ <div class="kart">
+  <h3 style="margin-top:0">Saat dilimi kontenjanları</h3>
+  <p class="bilgi" style="margin-top:0">Her dilimde alınacak en fazla sipariş. Dolunca sitede "Dolu" görünür. 0 = dilim kapalı.</p>
+  <div class="dilimler" id="kontenjan"></div>
+ </div>
+ <div class="kart">
+  <h3 style="margin-top:0">Bugün için dilim aç / kapat</h3>
+  <p class="bilgi" style="margin-top:0">Kapalı dilim bugün sitede seçilemez (yarın etkilenmez).</p>
+  <div class="dilimler" id="bugunDilim"></div>
+ </div>
+ <div class="kart">
+  <h3 style="margin-top:0">Günü tamamen kapat</h3>
+  <div class="ekle" style="margin-top:0"><input type="date" id="kapGun" aria-label="Kapatılacak gün"><button class="btn ana" id="kapEkle">Kapat</button></div>
+  <div class="etiketler" id="kapListe" style="margin-top:10px"></div>
+ </div>
+ <div class="kart">
+  <div class="alan" style="margin:0"><label for="kesim">Aynı gün teslimat son sipariş saati</label>
+   <input type="time" id="kesim" style="max-width:160px"><small>Bu saatten sonra sitede "Bugün" kapanır, "Yarın" seçilir.</small></div>
+ </div>
+</section>
+
+<!-- 3) HİZMET DIŞI BÖLGELER -->
+<section id="bolgeler" role="tabpanel" aria-labelledby="t3" hidden>
+ <h2>Hizmet Dışı Bölgeler</h2>
+ <div class="kart">
+  <h3 style="margin-top:0">İlçeler</h3>
+  <div class="etiketler" id="ilceListe"></div>
+  <div class="ekle"><input type="text" id="ilceYeni" placeholder="İlçe adı (ör. Silivri)" aria-label="Eklenecek ilçe"><button class="btn ana" id="ilceEkle">Ekle</button></div>
+ </div>
+ <div class="kart">
+  <h3 style="margin-top:0">Köy / mahalleler</h3>
+  <div class="etiketler" id="koyListe"></div>
+  <div class="ekle"><input type="text" id="koyYeni" placeholder="Ad (ör. Riva)" aria-label="Eklenecek köy veya mahalle"><select class="g" id="koyIlce" aria-label="Bağlı olduğu ilçe" style="max-width:130px"><option>Beykoz</option><option>Sarıyer</option></select><button class="btn ana" id="koyEkle">Ekle</button></div>
+  <p class="bilgi">Bu bölgeler sitede listelenmez; müşteri yalnız o adresi yazınca "Bu bölgeye teslimat yapamıyoruz" uyarısını görür.</p>
+ </div>
+</section>
+
+<!-- 4) ÜRÜNLER -->
+<section id="urunler" role="tabpanel" aria-labelledby="t4" hidden>
+ <h2>Ürünler</h2>
+ <div class="kart">
+  <h3 style="margin-top:0">Ürün Ekle</h3>
+  <form class="form" id="urForm">
+   <div class="alan" style="margin:0"><label for="uAd">Ürün adı</label><input type="text" id="uAd" required></div>
+   <div class="alan" style="margin:0"><label for="uFiyat">Fiyat (₺)</label><input type="number" id="uFiyat" min="0" step="1" required inputmode="numeric"></div>
+   <div class="alan" style="margin:0"><label for="uKat">Kategori</label><select class="g" id="uKat"><option>Buketler</option><option>Güller</option><option>Lilyumlar</option><option>Papatyalar</option><option>Kutuda &amp; Vazoda</option><option>Çikolatalı</option><option>Saksı Bitkileri</option></select></div>
+   <div class="alan" style="margin:0"><span style="font-weight:700;font-size:13.5px">Fotoğraf</span>
+    <label class="yuk">📷 Fotoğraf seç / çek<input type="file" id="uFoto" accept="image/*"></label>
+    <small>Telefondan çektiğinizi direkt yükleyin; sistem kırpmadan kare çerçeveye sığdırır.</small>
+    <div class="onizle" id="onizle" hidden><div class="kare" id="onKare"><img id="onImg" alt="Önizleme"></div></div>
+   </div>
+   <button class="btn ana" type="submit" style="height:46px;justify-content:center">Ürünü Ekle</button>
+  </form>
+ </div>
+ <div class="urunler" id="urListe"></div>
+</section>
+</main>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+const AYAR_K='lidya-ayar', SIP_K='lidya-siparis', UR_K='lidya-urun';
+const DILIM=['09:00–12:00','12:00–15:00','15:00–18:00','18:00–21:00'];
+const AY=['Ocak','Şubat','Mart','Nisan','Mayıs','Haziran','Temmuz','Ağustos','Eylül','Ekim','Kasım','Aralık'];
+const VARSAYILAN={kontenjan:[5,5,5,5],kesim:'17:59',kapaliGun:[],kapaliDilim:{},
+ disiIlce:['Büyükçekmece','Silivri','Çatalca','Arnavutköy','Esenyurt','Başakşehir'],
+ disiKoy:{'Beykoz':['Riva','Poyrazköy','Anadolu Feneri','Polonezköy','Cumhuriyet Köyü','Elmalı Köyü','Öğümce','Dereseki','Göllü'],'Sarıyer':['Rumelifeneri','Garipçe','Kısırkaya','Zekeriyaköy','Uskumruköy','Demirciköy','Gümüşdere','Kumköy','Kilyos','Bahçeköy']}};
+const oku=(k,v)=>{try{const x=JSON.parse(localStorage.getItem(k));return x??v}catch(e){return v}};
+const yaz=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v));return true}catch(e){toast('Kaydedilemedi (tarayıcı depolaması dolu/kapalı)');return false}};
+const ayar=Object.assign(structuredClone(VARSAYILAN),oku(AYAR_K,{}));
+const kaydet=()=>{yaz(AYAR_K,ayar);toast('Kaydedildi ✓')};
+const e=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+let tz;function toast(t){const x=document.getElementById('toast');x.textContent=t;x.classList.add('ac');clearTimeout(tz);tz=setTimeout(()=>x.classList.remove('ac'),1600)}
+const bugun=new Date();bugun.setHours(0,0,0,0);
+const iso=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+const gunEk=n=>{const d=new Date(bugun);d.setDate(d.getDate()+n);return d};
+const etiket=s=>{const [y,m,d]=s.split('-').map(Number);return d+' '+AY[m-1]};
+
+// sekmeler
+document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{document.querySelectorAll('nav button').forEach(x=>x.setAttribute('aria-selected',x===b));document.querySelectorAll('main section').forEach(s=>s.hidden=s.id!==b.getAttribute('aria-controls'))});
+
+// ---- 1) siparişler (demo)
+function demoSiparis(){
+ const U=[['Soft Pembe Gül ve Lilyum Buketi','Elmalıkent Mah., Ümraniye','Doğum günün kutlu olsun canım annem'],['9 Kırmızı Gül Şeffaf Çanta Tasarımında','Moda Mah., Kadıköy','Seni seviyorum'],['Beyaz Lilyum Vazoda','Altunizade, Üsküdar','Geçmiş olsun, en kısa zamanda iyileş'],['Siyah Kutuda Kırmızı Gül ve Ferrero Rocher','Levent, Beşiktaş',''],['Kelebek Kanatlarında Beyaz Papatya Buketi','Atakent Mah., Ümraniye','Yeni işin hayırlı olsun'],['Mor Pembe Kasımpatı Vazoda','Kozyatağı, Kadıköy','Öğretmenler gününüz kutlu olsun'],['Ayçiçeği ve Yeşil Ponpon Çiçekli Siyah Kutu','Nişantaşı, Şişli',''],['Pembe Lilyum Buketi','Kurtköy, Pendik','İyi ki varsın'],['Toz Pembe Gül ve Bordo Papatya Buketi','İnkılap Mah., Ümraniye','Yıl dönümümüz kutlu olsun'],['Turuncu Kasımpatı Buketi','Bağlarbaşı, Maltepe','']];
+ const D=['Yeni','Hazırlanıyor','Yolda','Teslim edildi'];
+ return U.map((u,i)=>({no:'LF-'+(10241+i),urun:u[0],adres:u[1],gun:iso(gunEk(i<6?0:1)),dilim:[0,0,1,1,2,2,0,1,2,3][i],not:u[2],alici:['Ayşe K.','Mert Y.','Zeynep A.','Can D.','Elif S.','Hatice T.','Deniz B.','Selin Ö.','Burak E.','Nur G.'][i],durum:i<6?D[[3,3,2,1,0,0][i]]:'Yeni'}));
+}
+let sip=oku(SIP_K,null);if(!sip||!sip.length||sip[0].gun<iso(bugun)){sip=demoSiparis();yaz(SIP_K,sip)}
+let filtre='0';
+function sipListe(){
+ const g=filtre==='t'?null:iso(gunEk(+filtre));
+ const l=sip.filter(s=>!g||s.gun===g).sort((a,b)=>a.gun.localeCompare(b.gun)||a.dilim-b.dilim);
+ const say=k=>l.filter(s=>s.durum===k).length;
+ document.getElementById('ozet').innerHTML=`<div><b>${l.length}</b><span>Sipariş</span></div><div><b>${say('Yeni')+say('Hazırlanıyor')}</b><span>Hazırlanacak</span></div><div><b>${say('Yolda')}</b><span>Yolda</span></div><div><b>${say('Teslim edildi')}</b><span>Teslim</span></div>`;
+ document.getElementById('yazBaslik').textContent='Lidya Flowers — Teslimat listesi '+(g?etiket(g):'(tümü)');
+ document.getElementById('sipListe').innerHTML=l.length?l.map(s=>`<div class="kart sip">
+  <div class="ust"><span class="no">${e(s.no)} · ${e(s.alici)}</span><span class="dl">${etiket(s.gun)} · ${DILIM[s.dilim]}</span></div>
+  <div><b>${e(s.urun)}</b><br><small>📍 ${e(s.adres)}, İstanbul</small></div>
+  <div>${s.not?`<div class="kn">“${e(s.not)}”</div>`:'<small>Kart notu yok</small>'}</div>
+  <select class="durum d-${s.durum.split(' ')[0]}" data-no="${e(s.no)}" aria-label="${e(s.no)} durumu">${['Yeni','Hazırlanıyor','Yolda','Teslim edildi'].map(d=>`<option${d===s.durum?' selected':''}>${d}</option>`).join('')}</select>
+ </div>`).join(''):'<div class="kart" style="text-align:center;color:var(--mut)">Bu gün için sipariş yok.</div>';
+ document.querySelectorAll('.durum').forEach(x=>x.onchange=()=>{const s=sip.find(y=>y.no===x.dataset.no);s.durum=x.value;yaz(SIP_K,sip);x.className='durum d-'+x.value.split(' ')[0];sipListe();toast('Durum güncellendi')});
+ return l;
+}
+document.querySelectorAll('.kap button').forEach(b=>b.onclick=()=>{filtre=b.dataset.g;document.querySelectorAll('.kap button').forEach(x=>x.classList.toggle('on',x===b));sipListe()});
+document.getElementById('yazdir').onclick=()=>window.print();
+document.getElementById('indir').onclick=()=>{
+ const l=sipListe();const sat=[['Sipariş No','Alıcı','Ürün','Adres','Gün','Saat','Kart notu','Durum'],...l.map(s=>[s.no,s.alici,s.urun,s.adres+', İstanbul',etiket(s.gun),DILIM[s.dilim],s.not,s.durum])];
+ const csv='﻿'+sat.map(r=>r.map(c=>'"'+String(c).replace(/"/g,'""')+'"').join(';')).join('\r\n');
+ const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));a.download='lidya-teslimat-'+(filtre==='t'?'tumu':iso(gunEk(+filtre)))+'.csv';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+};
+sipListe();
+
+// ---- 2) teslimat ayarları
+function teslimCiz(){
+ document.getElementById('kontenjan').innerHTML=DILIM.map((d,i)=>`<div class="dilim"><b>${d}</b><label class="anah">Kontenjan<input type="number" min="0" max="99" value="${ayar.kontenjan[i]}" data-k="${i}" style="width:80px;height:38px" aria-label="${d} kontenjanı"></label></div>`).join('');
+ const kd=ayar.kapaliDilim[iso(bugun)]||[];
+ document.getElementById('bugunDilim').innerHTML=DILIM.map((d,i)=>`<div class="dilim"><b>${d}</b><div class="anah"><span id="bd${i}">${kd.includes(i)?'Kapalı':'Açık'}</span><span class="sw"><input type="checkbox" data-b="${i}" ${kd.includes(i)?'':'checked'} aria-label="${d} bugün açık"><i></i></span></div></div>`).join('');
+ document.getElementById('kapListe').innerHTML=ayar.kapaliGun.length?ayar.kapaliGun.sort().map(g=>`<span>${etiket(g)}<button aria-label="${etiket(g)} kapatmasını kaldır" data-g="${g}">×</button></span>`).join(''):'<small style="color:var(--mut)">Kapalı gün yok.</small>';
+ document.getElementById('kesim').value=ayar.kesim;
+ document.querySelectorAll('[data-k]').forEach(x=>x.onchange=()=>{ayar.kontenjan[+x.dataset.k]=Math.max(0,Math.min(99,parseInt(x.value)||0));x.value=ayar.kontenjan[+x.dataset.k];kaydet()});
+ document.querySelectorAll('[data-b]').forEach(x=>x.onchange=()=>{const k=iso(bugun),i=+x.dataset.b;let l=ayar.kapaliDilim[k]||[];l=x.checked?l.filter(y=>y!==i):[...new Set([...l,i])];ayar.kapaliDilim={[k]:l};document.getElementById('bd'+i).textContent=x.checked?'Açık':'Kapalı';kaydet()});
+ document.querySelectorAll('#kapListe [data-g]').forEach(x=>x.onclick=()=>{ayar.kapaliGun=ayar.kapaliGun.filter(g=>g!==x.dataset.g);kaydet();teslimCiz()});
+}
+document.getElementById('kapGun').min=iso(bugun);
+document.getElementById('kapEkle').onclick=()=>{const v=document.getElementById('kapGun').value;if(!v){toast('Önce bir gün seçin');return}if(!ayar.kapaliGun.includes(v))ayar.kapaliGun.push(v);kaydet();teslimCiz()};
+document.getElementById('kesim').onchange=x=>{if(x.target.value){ayar.kesim=x.target.value;kaydet()}};
+teslimCiz();
+
+// ---- 3) hizmet dışı bölgeler
+function bolgeCiz(){
+ document.getElementById('ilceListe').innerHTML=ayar.disiIlce.map(i=>`<span>${e(i)}<button data-i="${e(i)}" aria-label="${e(i)} kaldır">×</button></span>`).join('')||'<small style="color:var(--mut)">Yok</small>';
+ document.getElementById('koyListe').innerHTML=Object.entries(ayar.disiKoy).flatMap(([il,ks])=>ks.map(k=>`<span>${e(k)} <small style="color:var(--mut)">${il}</small><button data-k2="${e(k)}" data-il="${il}" aria-label="${e(k)} kaldır">×</button></span>`)).join('')||'<small style="color:var(--mut)">Yok</small>';
+ document.querySelectorAll('[data-i]').forEach(x=>x.onclick=()=>{ayar.disiIlce=ayar.disiIlce.filter(i=>i!==x.dataset.i);kaydet();bolgeCiz()});
+ document.querySelectorAll('[data-k2]').forEach(x=>x.onclick=()=>{ayar.disiKoy[x.dataset.il]=ayar.disiKoy[x.dataset.il].filter(k=>k!==x.dataset.k2);kaydet();bolgeCiz()});
+}
+const temiz=s=>s.trim().replace(/\s+/g,' ').slice(0,40);
+document.getElementById('ilceEkle').onclick=()=>{const v=temiz(document.getElementById('ilceYeni').value);if(!v)return;if(!ayar.disiIlce.includes(v))ayar.disiIlce.push(v);document.getElementById('ilceYeni').value='';kaydet();bolgeCiz()};
+document.getElementById('koyEkle').onclick=()=>{const v=temiz(document.getElementById('koyYeni').value),il=document.getElementById('koyIlce').value;if(!v)return;(ayar.disiKoy[il]=ayar.disiKoy[il]||[]).includes(v)||ayar.disiKoy[il].push(v);document.getElementById('koyYeni').value='';kaydet();bolgeCiz()};
+bolgeCiz();
+
+// ---- 4) ürünler
+const MEVCUT=[["Pembe Krizantem ve Kuru Portakal Detaylı Buket", "1.399,00", "img/u0.webp"], ["Ayçiçeği ve Yeşil Ponpon Çiçekli Siyah Kutu", "1.499,00", "img/u1.webp"], ["Soft Pembe Gül ve Lilyum Buketi", "1.749,00", "img/u2.webp"], ["Turuncu Kasımpatı ve Yeşil Ponpon Buketi", "1.099,00", "img/u3.webp"], ["Toz Pembe Gül ve Bordo Papatya Buketi", "1.299,00", "img/u4.webp"], ["Kelebek Kanatlarında Beyaz Papatya Buketi", "1.249,00", "img/u5.webp"], ["Renklerin Büyüsü – Karışık Kasımpatı Buketi", "999,00", "img/u6.webp"], ["Ayçiçeği ve Beyaz Papatya Buketi – Özel Tasarım", "1.299,00", "img/u8.webp"], ["Turuncu Kasımpatı Buketi – Gazete Desenli Özel Tasarım", "1.099,00", "img/u9.webp"], ["Beyaz Lilyum Vazoda – Zarif ve Şık Çiçek Tasarımı", "1.099,00", "img/u10.webp"], ["Pembe Lilyum Buketi – Zarif Pembe Lilyumlarla Özel Tasarım", "1.999,00", "img/u11.webp"], ["9 Kırmızı Gül Şeffaf Çanta Tasarımında", "1.299,00", "img/u12.webp"], ["Beyaz Papatya ve Yeşil Detaylı Zarif Buket", "1.299,00", "img/u13.webp"], ["Mor Pembe Kasımpatı Vazoda", "1.399,00", "img/u14.webp"], ["Mor ve Beyaz Papatya Buketi", "1.099,00", "img/u15.webp"], ["Fuşya Ambalajlı Schefflera", "849,00", "img/u16.webp"], ["Kırmızı Antoryum Çiçeği – Zarif ve Modern Aranjman", "749,00", "img/u17.webp"], ["Siyah Kutuda Soft Pembe Gül ve Kinder Joy Çikolata Aranjmanı", "2.999,00", "img/u18.webp"], ["Siyah Kutuda Kırmızı Gül ve Ferrero Rocher Çikolata Aranjmanı", "2.699,00", "img/u19.webp"]];
+function urCiz(){
+ const yeni=oku(UR_K,[]);
+ const l=[...yeni.map(u=>({...u,y:1})),...MEVCUT.map(([ad,f,img])=>({ad,fiyat:'₺'+f,img}))];
+ document.getElementById('urListe').innerHTML=l.map(u=>`<div class="ur"><div class="kare" style="--bg-img:url('${u.img}')"><img src="${u.img}" alt="" loading="lazy"></div><div class="b"><b>${e(u.ad)}</b>${e(u.fiyat)}${u.y?`<br><small>${e(u.kat)}</small> <span class="y">yeni eklendi</span>`:''}</div></div>`).join('');
+}
+let fotoData=null;
+document.getElementById('uFoto').onchange=ev=>{const f=ev.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{const im=new Image();im.onload=()=>{
+  // 800 px'e küçült (kırpmadan) — demo depolama için
+  const s=Math.min(1,800/Math.max(im.width,im.height));const c=document.createElement('canvas');c.width=Math.round(im.width*s);c.height=Math.round(im.height*s);c.getContext('2d').drawImage(im,0,0,c.width,c.height);
+  fotoData=c.toDataURL('image/jpeg',.8);document.getElementById('onImg').src=fotoData;document.getElementById('onKare').style.setProperty('--bg-img',`url('${fotoData}')`);document.getElementById('onizle').hidden=false};im.src=r.result};r.readAsDataURL(f)};
+document.getElementById('urForm').onsubmit=ev=>{ev.preventDefault();
+ const ad=temiz(document.getElementById('uAd').value),f=parseInt(document.getElementById('uFiyat').value);
+ if(!ad||!(f>=0)){toast('Ad ve fiyat girin');return}if(!fotoData){toast('Fotoğraf seçin');return}
+ const l=oku(UR_K,[]);l.unshift({ad,fiyat:'₺'+f.toLocaleString('tr-TR')+',00',kat:document.getElementById('uKat').value,img:fotoData});
+ if(yaz(UR_K,l)){ev.target.reset();fotoData=null;document.getElementById('onizle').hidden=true;urCiz();toast('Ürün eklendi ✓')}};
+urCiz();
+</script>
+</body>
+</html>
