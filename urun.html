@@ -76,6 +76,22 @@ textarea{width:100%;min-height:80px;border:1.5px solid var(--line);border-radius
 .acik{font-size:14px;color:var(--ink);background:var(--cream);border-radius:14px;padding:14px;margin-top:18px}
 .acik b{display:block;margin-bottom:4px}
 footer{background:var(--ink);color:#d8cbbd;padding:22px 0;font-size:12.5px;text-align:center}
+.adres{position:relative}
+.adres label{display:block;font-weight:700;font-size:17px;margin:18px 0 8px}
+.adres label i{color:#d23b3b;font-style:normal}
+.akutu{display:flex;align-items:center;gap:8px;border:1.5px solid #7cc49a;border-radius:14px;padding:0 12px;background:#fff}
+.akutu:focus-within{border-color:var(--yesil);box-shadow:0 0 0 3px #d6efe0}
+.akutu svg{width:22px;height:22px;fill:none;stroke:var(--ink);stroke-width:1.8;flex:0 0 auto}
+.akutu input{flex:1;border:0;height:50px;font:inherit;font-size:16px;background:transparent;min-width:0}
+.akutu input:focus{outline:none}
+.oneri{position:absolute;left:0;right:0;top:100%;margin:4px 0 0;background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:0 10px 30px rgba(58,44,28,.12);list-style:none;padding:4px;z-index:15;max-height:260px;overflow:auto}
+.oneri li{padding:10px 12px;border-radius:8px;cursor:pointer;font-size:14px}
+.oneri li small{color:var(--mut);margin-left:6px}
+.oneri li[aria-selected=true],.oneri li:hover{background:var(--yesil-a)}
+.anot{margin-top:8px;font-size:13px;font-weight:600;border-radius:10px;padding:8px 12px}
+.anot.ok{background:var(--yesil-a);color:var(--yesil)}
+.anot.uyari{background:#fdecec;color:#b42318}
+.anot.uyari a{text-decoration:underline}
 @media(min-width:860px){
  .ust{grid-template-columns:1fr 1fr;gap:44px;align-items:start;padding-top:10px}
  .foto{position:sticky;top:80px}
@@ -99,6 +115,14 @@ footer{background:var(--ink);color:#d8cbbd;padding:22px 0;font-size:12.5px;text-
    <div class="fiyat" id="fiyat"></div>
    <div class="tes"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 6h11v9H2zM13 9h4l3 3v3h-7z"/><circle cx="6" cy="17" r="1.8"/><circle cx="17" cy="17" r="1.8"/></svg>Aynı Gün Teslimat</div>
 
+   <div class="adres">
+    <label for="adres">Hediyenin Ulaşacağı Adres <i aria-hidden="true">*</i></label>
+    <div class="akutu"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>
+     <input id="adres" type="text" autocomplete="off" required aria-required="true" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="oneri" placeholder="Adres, mahalle, ilçe veya il adı yazın"></div>
+    <ul class="oneri" id="oneri" role="listbox" hidden></ul>
+    <div class="anot" id="anot" aria-live="polite" hidden></div>
+   </div>
+
    <h2>Teslimat Günü</h2>
    <div class="gunler" id="gunler" role="radiogroup" aria-label="Teslimat günü"></div>
 
@@ -110,7 +134,7 @@ footer{background:var(--ink);color:#d8cbbd;padding:22px 0;font-size:12.5px;text-
    <h2>Kart Notu <small>(isteğe bağlı)</small></h2>
    <textarea id="not" maxlength="200" placeholder="Çiçekle birlikte gidecek mesajınız"></textarea>
 
-   <div class="ozet" id="ozet" aria-live="polite">Lütfen teslimat günü ve saat dilimi seçin.</div>
+   <div class="ozet" id="ozet" aria-live="polite">Lütfen adres, teslimat günü ve saat dilimi seçin.</div>
    <div class="al"><button id="sepet" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 8h14l-1.2 11.2a2 2 0 0 1-2 1.8H8.2a2 2 0 0 1-2-1.8zM9 8V6a3 3 0 0 1 6 0v2" fill="none" stroke="currentColor" stroke-width="2"/></svg>Sepete Ekle</button></div>
 
    <div class="acik"><b>Teslimat Bilgisi</b>İstanbul genelinde 17:59'a kadar verilen siparişler aynı gün 21:00'e kadar teslim edilir. İleri bir tarih için takvimden gün seçebilirsiniz.</div>
@@ -146,6 +170,45 @@ function dilimDurum(d,i){
  const n=doluluk(d,i); if(n>=5) return {kapali:true,dolu:true,yazi:'Dolu'};
  return {kapali:false,yazi:'Uygun'};
 }
+
+// İstanbul ilçeleri (yaka) + örnek mahalleler — demo için statik liste
+const ANA=['Adalar','Ataşehir','Beykoz','Çekmeköy','Kadıköy','Kartal','Maltepe','Pendik','Sancaktepe','Sultanbeyli','Şile','Tuzla','Ümraniye','Üsküdar'];
+const AVR=['Arnavutköy','Avcılar','Bağcılar','Bahçelievler','Bakırköy','Başakşehir','Bayrampaşa','Beşiktaş','Beylikdüzü','Beyoğlu','Büyükçekmece','Çatalca','Esenler','Esenyurt','Eyüpsultan','Fatih','Gaziosmanpaşa','Güngören','Kağıthane','Küçükçekmece','Sarıyer','Silivri','Sultangazi','Şişli','Zeytinburnu'];
+const MAH={'Ümraniye':['Elmalıkent','Atakent','Çakmak','Esenşehir','Namık Kemal','Tantavi','Site'],'Kadıköy':['Moda','Fenerbahçe','Göztepe','Erenköy','Caddebostan','Suadiye','Kozyatağı'],'Üsküdar':['Altunizade','Acıbadem','Kuzguncuk','Çengelköy','Beylerbeyi'],'Ataşehir':['Atatürk','Barbaros','İçerenköy','Küçükbakkalköy'],'Maltepe':['Bağlarbaşı','Cevizli','İdealtepe','Zümrütevler'],'Kartal':['Kordonboyu','Soğanlık','Yakacık'],'Pendik':['Kurtköy','Çınardere','Batı'],'Beşiktaş':['Levent','Etiler','Bebek','Ortaköy'],'Şişli':['Mecidiyeköy','Nişantaşı','Fulya','Esentepe'],'Bakırköy':['Ataköy','Yeşilköy','Florya','Kartaltepe'],'Sarıyer':['Tarabya','Maslak','İstinye','Yeniköy'],'Kağıthane':['Seyrantepe','Çağlayan','Gültepe']};
+const IL_DISI=['ankara','izmir','bursa','kocaeli','izmit','antalya','adana','konya','gebze','sakarya','tekirdağ','eskişehir','yalova','bolu','çorlu'];
+const kucuk=s=>s.toLocaleLowerCase('tr');
+const KAYIT=[];
+ANA.forEach(i=>KAYIT.push({ilce:i,yaka:'ana',ad:i+', İstanbul'}));AVR.forEach(i=>KAYIT.push({ilce:i,yaka:'avr',ad:i+', İstanbul'}));
+Object.entries(MAH).forEach(([i,ms])=>ms.forEach(m=>KAYIT.push({ilce:i,yaka:ANA.includes(i)?'ana':'avr',ad:m+' Mah., '+i+', İstanbul'})));
+let adresIlce=null;
+const ai=document.getElementById('adres'),ol=document.getElementById('oneri'),an=document.getElementById('anot');
+const bul=txt=>{const k=kucuk(txt);return [...ANA,...AVR].find(i=>k.includes(kucuk(i)))||null};
+function not(){
+ const v=ai.value.trim();adresIlce=null;an.hidden=true;
+ if(v.length>=3){
+  const ilce=bul(v);
+  if(ilce){adresIlce=ilce;an.hidden=false;an.className='anot ok';an.textContent=ANA.includes(ilce)?'✓ '+ilce+' · Anadolu Yakası’na ücretsiz teslimat':'✓ '+ilce+' · İstanbul geneli teslimat';}
+  else if(ol.hidden&&v.length>=4&&!IL_DISI.some(x=>kucuk(v).includes(x))){an.hidden=false;an.className='anot uyari';an.textContent='İlçe adını da yazın (ör. Ümraniye, Kadıköy) ya da listeden seçin.';}
+  else if(IL_DISI.some(x=>kucuk(v).includes(x))){an.hidden=false;an.className='anot uyari';
+   an.innerHTML='Bu bölgeye teslimat yapamıyoruz, <a href="https://wa.me/'+WA+'?text='+encodeURIComponent('Merhaba, şu adrese teslimat yapıyor musunuz: '+v)+'">WhatsApp’tan sorun</a>.';}
+ }
+ if(typeof ozet==='function')ozet();
+}
+let aktif=-1;
+function oner(){
+ const k=kucuk(ai.value.trim());ol.innerHTML='';aktif=-1;
+ const s=(k.length<2||IL_DISI.some(x=>k.includes(x)))?[]:KAYIT.filter(r=>kucuk(r.ad).includes(k)).slice(0,7);
+ s.forEach((r,j)=>{const li=document.createElement('li');li.setAttribute('role','option');li.id='o'+j;
+  li.innerHTML=r.ad.replace(', İstanbul','')+'<small>'+(r.yaka==='ana'?'Anadolu':'Avrupa')+' Yakası</small>';
+  li.onmousedown=e=>{e.preventDefault();ai.value=r.ad;ol.hidden=true;ai.setAttribute('aria-expanded','false');not()};ol.appendChild(li)});
+ ol.hidden=!s.length;ai.setAttribute('aria-expanded',String(!!s.length));
+}
+ai.addEventListener('input',()=>{oner();not()});
+ai.addEventListener('blur',()=>setTimeout(()=>{ol.hidden=true;ai.setAttribute('aria-expanded','false');not()},150));
+ai.addEventListener('keydown',e=>{const li=[...ol.children];if(ol.hidden||!li.length)return;
+ if(e.key==='ArrowDown'||e.key==='ArrowUp'){e.preventDefault();aktif=(aktif+(e.key==='ArrowDown'?1:-1)+li.length)%li.length;li.forEach((x,j)=>x.setAttribute('aria-selected',j===aktif));ai.setAttribute('aria-activedescendant','o'+aktif)}
+ else if(e.key==='Enter'&&aktif>=0){e.preventDefault();li[aktif].dispatchEvent(new MouseEvent('mousedown'))}
+ else if(e.key==='Escape'){ol.hidden=true}});
 let secGun=null,secDilim=null;
 const ozelTarih=(()=>{let t=new Date(bugun.getFullYear(),OZEL.m,OZEL.d);if(t<bugun)t=new Date(bugun.getFullYear()+1,OZEL.m,OZEL.d);return t})();
 const ozelYakin=(ozelTarih-bugun)/864e5<=14&&(ozelTarih-bugun)/864e5>1;
@@ -184,11 +247,11 @@ function bilgi(){
 }
 function ozet(){
  const o=document.getElementById('ozet');const b=document.getElementById('sepet');
- if(secGun&&secDilim!==null){const [x,y]=DILIM[secDilim];o.innerHTML='Teslimat: <b>'+etiket(secGun)+', '+String(x).padStart(2,'0')+':00–'+y+':00</b>';b.disabled=false}
- else{o.textContent=secGun?'Lütfen bir saat dilimi seçin.':'Lütfen teslimat günü ve saat dilimi seçin.';b.disabled=true}
+ if(adresIlce&&secGun&&secDilim!==null){const [x,y]=DILIM[secDilim];o.innerHTML='Teslimat: <b>'+etiket(secGun)+', '+String(x).padStart(2,'0')+':00–'+y+':00</b>';b.disabled=false}
+ else{o.textContent=!adresIlce?'Lütfen teslimat adresini yazın.':secGun?'Lütfen bir saat dilimi seçin.':'Lütfen teslimat günü ve saat dilimi seçin.';b.disabled=true}
 }
 document.getElementById('sepet').onclick=()=>{const [x,y]=DILIM[secDilim];const n=document.getElementById('not').value.trim();
- const t='Merhaba, sipariş vermek istiyorum.\nÜrün: '+p[0]+' (₺'+p[1]+')\nTeslimat: '+etiket(secGun)+' '+String(x).padStart(2,'0')+':00-'+y+':00'+(n?'\nKart notu: '+n:'');
+ const t='Merhaba, sipariş vermek istiyorum.\nÜrün: '+p[0]+' (₺'+p[1]+')\nAdres: '+ai.value.trim()+'\nTeslimat: '+etiket(secGun)+' '+String(x).padStart(2,'0')+':00-'+y+':00'+(n?'\nKart notu: '+n:'');
  location.href='https://wa.me/'+WA+'?text='+encodeURIComponent(t)};
 gunleriCiz();bilgi();
 const ilk=[...document.querySelectorAll('.gun')].find(x=>!x.disabled&&x.dataset.t);
