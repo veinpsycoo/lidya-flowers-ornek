@@ -121,8 +121,8 @@ footer a:hover{color:#fff}
 .bk h3{margin:0 0 10px;color:#fff;font:800 clamp(17px,4.8vw,22px)/1.15 system-ui,sans-serif;letter-spacing:.02em;text-transform:uppercase;text-shadow:0 1px 2px rgba(0,0,0,.55),0 2px 12px rgba(0,0,0,.45)}
 .bk span{display:inline-block;background:#fff;color:var(--ink);font-weight:700;font-size:13px;padding:8px 16px;border-radius:999px}
 .bk:hover span{background:var(--rose);color:#fff}
-@media(min-width:720px){.buyuk{grid-template-columns:repeat(2,1fr);gap:16px}}
-@media(min-width:1000px){.buyuk{grid-template-columns:repeat(3,1fr)}.bk{aspect-ratio:1.6/1}}
+@media(min-width:720px){.buyuk{grid-template-columns:repeat(2,1fr);gap:16px}.bk:last-child{grid-column:1/-1;aspect-ratio:3.2/1}}
+@media(min-width:1000px){.buyuk{grid-template-columns:repeat(6,1fr)}.bk,.bk:last-child{grid-column:span 2;aspect-ratio:1.6/1}.bk:nth-child(n+4){grid-column:span 3;aspect-ratio:2.4/1}}
 .filtre{display:flex;gap:8px;overflow-x:auto;padding:2px 0 14px;scrollbar-width:none}
 .filtre::-webkit-scrollbar{display:none}
 .filtre button{flex:0 0 auto;height:36px;padding:0 16px;border:1px solid #d9d2cb;background:#faf7f4;color:var(--ink);border-radius:999px;font:600 13px/1 system-ui,sans-serif;cursor:pointer}
@@ -208,7 +208,6 @@ footer a:hover{color:#fff}
  <section aria-labelledby="bk-b">
   <div class="baslik"><h2 id="bk-b" class="serif">Özel Günler İçin</h2></div>
   <div class="buyuk">
-   <a class="bk" href="#urunler"><img src="img/b-gul.webp" alt="" width="640" height="291" loading="lazy" decoding="async"><div><h3>Güller</h3><span>Romantik Buketler</span></div></a>
    <a class="bk" href="#urunler"><img src="img/b-dogum.webp" alt="" width="640" height="291" loading="lazy" decoding="async"><div><h3>Doğum Günü Çiçekleri</h3><span>Sürpriz Buketler</span></div></a>
    <a class="bk" href="#kutu"><img src="img/b-sevgili.webp" alt="" width="640" height="291" loading="lazy" decoding="async"><div><h3>Sevgiliye</h3><span>Çiçek &amp; Çikolata</span></div></a>
    <a class="bk" href="#kutu"><img src="img/b-tebrik.webp" alt="" width="640" height="291" loading="lazy" decoding="async"><div><h3>Tebrik &amp; Açılış</h3><span>Zarif Aranjmanlar</span></div></a>
