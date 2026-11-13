@@ -102,7 +102,7 @@ footer{background:var(--ink);color:#d8cbbd;padding:22px 0;font-size:12.5px;text-
    <h2>Teslimat Günü</h2>
    <div class="gunler" id="gunler" role="radiogroup" aria-label="Teslimat günü"></div>
 
-   <h2>Teslimat Saati <small>· her dilim en fazla 5 sipariş</small></h2>
+   <h2>Teslimat Saati</h2>
    <div class="dilimler" id="dilimler" role="radiogroup" aria-label="Teslimat saati"></div>
 
    <div class="bilgi" id="bilgi" aria-live="polite"></div>
@@ -143,8 +143,8 @@ function doluluk(d,i){const s=(d.getDate()*7+i*3)%6; if(i===((d.getDate())%4))re
 function dilimDurum(d,i){
  const [b,e]=DILIM[i];
  if(ayni(d,bugun)){ if(dk>KESIM) return {kapali:true,yazi:'Bugün için sipariş kapandı'}; if(dk>=e*60) return {kapali:true,yazi:'Saati geçti'}; }
- const n=doluluk(d,i); if(n>=5) return {kapali:true,dolu:true,yazi:'Kontenjan dolu'};
- return {kapali:false,yazi:(5-n)+' yer kaldı'};
+ const n=doluluk(d,i); if(n>=5) return {kapali:true,dolu:true,yazi:'Dolu'};
+ return {kapali:false,yazi:'Uygun'};
 }
 let secGun=null,secDilim=null;
 const ozelTarih=(()=>{let t=new Date(bugun.getFullYear(),OZEL.m,OZEL.d);if(t<bugun)t=new Date(bugun.getFullYear()+1,OZEL.m,OZEL.d);return t})();
